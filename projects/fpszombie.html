@@ -82,8 +82,10 @@
                 <li><strong>Turn On</strong> - When the network object spawns, a check runs to see if the local client is the owner. If so, the camera and audio listener are enabled - no other player activates them.</li>
                 <li><strong>Update</strong> - Every <code>Update()</code>, if the local client owns this object, the camera position and rotation are continuously synced to the player's transform to stay locked to their view.</li>
               </ul>
-              <p class="why-it-matters">This ensures each player in the session only sees and hears from their own perspective. Without this, every spawned player object would attempt to use its camera, which breaks the view entirely in a networked setting.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Positioner here ]</div>
+              <p class="why-it-matters">This ensures each player only controls and hears from their own perspective in multiplayer, which is a core requirement for a networked FPS.</p>
+              <div class="project-media">
+                <img src="../Images/FPSZombie_cameraSetupPositioner.png" alt="Network Camera Positioner setup in Unity" />
+              </div>
             </div>
 
             <div class="worked-on-item">

@@ -901,6 +901,18 @@ pre {
   border: 1px solid var(--line);
   background: rgba(255,255,255,0.03);
 }
+.project-media {
+  margin-top: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.project-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
 .gallery-placeholder,
 .video-placeholder {
   display: grid;
