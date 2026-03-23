@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FPSZombie project breakdown by Joshua Tomasso." />
+  <title>FPSZombie | Joshua Tomasso</title>
+  <script>if(window.self!==window.top)document.documentElement.classList.add('in-iframe');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div class="site-shell inner-page-shell">
+    <header class="topbar topbar-inner">
+      <a class="brand" href="../index.html">Joshua Tomasso</a>
+      <nav class="nav nav-static" aria-label="Project navigation">
+        <a href="index.html">All Projects</a>
+        <a href="../index.html">Home</a>
+      </nav>
+    </header>
+
+    <main class="project-page">
+      <section class="project-hero reveal">
+        <div>
+          <a class="back-link" href="index.html">← Back to Projects</a>
+          <p class="eyebrow">Multiplayer Unity Project</p>
+          <h1>FPSZombie</h1>
+          <p class="page-hero-copy">A networked zombie shooter prototype centered on getting multiple players into the same match, keeping the session flow readable, and building a solid foundation for online play.</p>
+          <div class="tag-row">
+            <span>Unity</span><span>C#</span><span>Networking</span><span>Multiplayer</span>
+          </div>
+        </div>
+        <div class="project-hero-image">
+          <img src="../Images/FPSZombie.png" alt="FPSZombie screenshot" />
+        </div>
+      </section>
+
+      <section class="project-layout reveal reveal-delay-1">
+        <aside class="project-sidebar">
+          <div class="sidebar-card">
+            <span>Role</span>
+            <strong>Gameplay / Networking Programmer</strong>
+          </div>
+          <div class="sidebar-card">
+            <span>Engine / Stack</span>
+            <strong>Unity, C#, Netcode for GameObjects, Lobby, Relay</strong>
+          </div>
+          <div class="sidebar-card">
+            <span>Links</span>
+            <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/FPSZombie" target="_blank" rel="noreferrer">GitHub</a></div>
+          </div>
+        </aside>
+
+        <div class="project-body">
+          <article class="content-block">
+            <h2>Overview</h2>
+            <p>FPSZombie is a multiplayer-focused Unity prototype built around cooperative or competitive zombie shooting gameplay. The most interesting part of the project is the online layer: getting players into a lobby, joining the same session, and creating a playable shared experience.</p>
+<p>This page is set up so you can expand it further with exact systems you built, engineering tradeoffs, screenshots of code, and gameplay footage from real sessions.</p>
+          </article>
+        </div>
+      </section>
+
+      <div class="project-body-full">
+          <article class="content-block">
+            <h2>What I worked on</h2>
+            <ul class="detail-list">
+              <li>Built or supported the multiplayer session flow using Unity services such as Lobby and Relay.</li>
+              <li>Worked in C# inside Unity to connect gameplay features to the networking layer.</li>
+              <li>Helped shape a 4-player experience where players could enter and play in the same shared game session.</li>
+              <li>Created a foundation you can keep iterating on with UI, enemy behavior, weapons, replication polish, and match flow.</li>
+            </ul>
+          </article>
+
+          <article class="content-block">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+              <img src="../Images/FPSZombie.png" alt="FPSZombie gallery image" />
+              <div class="gallery-placeholder">
+                Add another screenshot, GIF, or process image here.
+              </div>
+              <div class="gallery-placeholder">
+                Use this space for UI callouts, diagrams, or code snippets as images.
+              </div>
+            </div>
+          </article>
+
+          <article class="content-block">
+            <h2>Video</h2>
+            <div class="video-placeholder">
+              <p>Paste a YouTube or Vimeo embed into this section when you have footage.</p>
+              <pre>&lt;iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="FPSZombie video" allowfullscreen&gt;&lt;/iframe&gt;</pre>
+            </div>
+          </article>
+
+          <article class="content-block">
+            <h2>Notes</h2>
+            <p>A strong next step for this page would be adding a short architecture section with diagrams for host flow, connection states, and how player objects are spawned and synchronized.</p>
+            <p>You can also include a short "Challenges" section here describing issues like connection setup, state synchronization, spawn timing, or debugging multiplayer-specific bugs.</p>
+          </article>
+      </div>
+    </main>
+  </div>
+  <script src="../script.js"></script>
+</body>
+</html>

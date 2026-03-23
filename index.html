@@ -1,194 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joshua Tomasso - Game Developer Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Joshua Tomasso — gameplay programmer focused on Unity, Unreal, multiplayer systems, and low-level game development." />
+  <title>Joshua Tomasso | Game Programmer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">Joshua Tomasso</div>
-            <ul class="nav-menu">
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#contact">Contact</a></li>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">Joshua Tomasso</a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+      <div class="topbar-right">
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#contact">Contact</a>
+          <a class="nav-pill" href="projects/index.html">All Projects</a>
+        </nav>
+        <button class="nav-pill resume-btn" id="resume-btn" type="button">Resume</button>
+        <div class="topbar-divider"></div>
+        <div class="topbar-social">
+          <a class="topbar-social-link" href="mailto:Joshuart.w.e@gmail.com" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          </a>
+          <a class="topbar-social-link" href="https://github.com/JoshuaTomasso" target="_blank" rel="noreferrer" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+          </a>
+          <a class="topbar-social-link" href="https://linkedin.com/in/joshua-tomasso-b73726334" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+          
+    <section class="section" id="about">
+      <div class="section-heading reveal">
+        <p class="eyebrow">About Me</p>
+      </div>
+
+      <div class="intro-grid">
+      <div class="hero-copy reveal">
+        <div class="about-identity">
+          <img
+            src="Images/portfolioPic_jtomasso.png"
+            alt="Joshua Tomasso"
+            class="about-photo"
+          />
+          <div class="about-name">
+            <h1>Joshua Tomasso</h1>
+            <p class="about-title">Game Programmer</p>
+            <a class="about-email" href="mailto:Joshuart.w.e@gmail.com">Joshuart.w.e@gmail.com</a>
+          </div>
+        </div>
+
+        <p class="hero-text">
+          I'm a game developer focused on Unity, Unreal Engine,
+          multiplayer features, and systems-level problem solving. I like making
+          games feel responsive, scalable, and satisfying to play.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="projects/index.html">Explore Projects</a>
+          <a class="button button-secondary" href="#contact">Contact Me</a>
+        </div>
+      </div>
+
+      <div class="intro-card reveal reveal-delay-1">
+        <p>
+          I'm graduating from Full Sail University with a strong
+          foundation in low-level systems programming, multiplayer networking, and
+          game engine architecture. I'm passionate about creating performant,
+          scalable game systems that deliver exceptional player experiences.
+        </p>
+
+        <p>
+          My expertise spans from low-level optimization and memory management to
+          high-level gameplay systems, with a particular focus on networked
+          multiplayer experiences and engine-level development.
+        </p>
+
+        <div class="stats-grid">
+          <div class="hero-stat">
+            <span>Focus</span>
+            <strong>Gameplay + Systems</strong>
+          </div>
+          <div class="hero-stat">
+            <span>Engines</span>
+            <strong>Unity + Unreal</strong>
+          </div>
+          <div class="hero-stat">
+            <span>Interests</span>
+            <strong>Networking, performance, tools</strong>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+<section class="section" id="projects">
+  <div class="section-heading reveal">
+    <p class="eyebrow">Projects</p>
+    <h3>Featured recent projects I have developed</h3>
+  </div>
+
+  <div class="project-card-grid">
+    <article class="project-card reveal">
+      <a class="project-card-image" href="projects/fpszombie.html">
+        <img src="Images/FPSZombie.png" alt="FPS Zombie project preview">
+      </a>
+
+      <div class="project-card-body">
+        <p class="project-card-kicker">Unity · C# · AI · FPS</p>
+        <h3><a href="projects/fpszombie.html">FPS Zombie</a></h3>
+        <p>
+          A zombie shooter focused on combat feel, enemy behavior, and responsive gameplay systems.
+        </p>
+
+        <div class="project-card-actions">
+          <a class="text-link" href="projects/fpszombie.html">View Case Study</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal reveal-delay-1">
+      <a class="project-card-image" href="projects/killshot-momentum.html">
+        <img src="Images/KillshotMomentum.png" alt="Killshot Momentum project preview">
+      </a>
+
+      <div class="project-card-body">
+        <p class="project-card-kicker">Unity · Multiplayer · Systems</p>
+        <h3><a href="projects/killshot-momentum.html">Killshot Momentum</a></h3>
+        <p>
+          A gameplay project centered on momentum, action pacing, and multiplayer-oriented design.
+        </p>
+
+        <div class="project-card-actions">
+          <a class="text-link" href="projects/killshot-momentum.html">View Case Study</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="project-card reveal reveal-delay-2">
+      <a class="project-card-image" href="projects/lizard-wizard.html">
+        <img src="Images/LizardWizard.png" alt="Lizard Wizard project preview">
+      </a>
+
+      <div class="project-card-body">
+        <p class="project-card-kicker">Unreal · Gameplay · Prototyping</p>
+        <h3><a href="projects/lizard-wizard.html">Lizard Wizard</a></h3>
+        <p>
+          A stylized game prototype exploring gameplay implementation, structure, and presentation.
+        </p>
+
+        <div class="project-card-actions">
+          <a class="text-link" href="projects/lizard-wizard.html">View Case Study</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+      <section class="section" id="skills">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Skills</p>
+          <h3>Technical Skills</h3>
+        </div>
+
+        <div class="skill-grid">
+          <article class="skill-card reveal">
+            <svg class="skill-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <h3>Languages</h3>
+            <ul>
+              <li>C++</li>
+              <li>C#</li>
+              <li>Python</li>
+              <li>JavaScript</li>
+              <li>x86/x64 Assembly</li>
             </ul>
+          </article>
+          <article class="skill-card reveal reveal-delay-1">            <svg class="skill-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>            <h3>Engines & Tools</h3>
+            <ul>
+              <li>Unreal Engine</li>
+              <li>Unity</li>
+              <li>Git / GitHub</li>
+              <li>Visual Studio</li>
+            </ul>
+          </article>
+          <article class="skill-card reveal reveal-delay-2">
+            <svg class="skill-card-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="2" x2="9" y2="4"/><line x1="15" y1="2" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="22"/><line x1="15" y1="20" x2="15" y2="22"/><line x1="20" y1="9" x2="22" y2="9"/><line x1="20" y1="14" x2="22" y2="14"/><line x1="2" y1="9" x2="4" y2="9"/><line x1="2" y1="14" x2="4" y2="14"/></svg>
+            <h3>Programming Focus</h3>
+            <ul>
+              <li>Gameplay programming</li>
+              <li>Multiplayer networking</li>
+              <li>Optimization and debugging</li>
+              <li>Systems thinking</li>
+            </ul>
+          </article>
         </div>
-    </nav>
+      </section>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Game Developer</h1>
-            <p class="hero-subtitle">Specializing in Unity & Unreal & Networking & Low-Level Programming</p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+      <section class="section contact-panel" id="contact">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Contact</p>
+          <p class="contact-tagline">I'm currently seeking opportunities in game development. Let's connect and discuss how I can contribute to your team.</p>
+        </div>
+        <div class="contact-grid reveal reveal-delay-1">
+          <a class="contact-card" href="mailto:Joshuart.w.e@gmail.com">
+            <div class="contact-icon-wrap">
+              <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
             </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <div class="about-content">
-                <p>
-                    I'm a game developer graduating from Full Sail University with a strong foundation in 
-                    low-level systems programming, multiplayer networking, and game engine architecture. 
-                    I'm passionate about creating performant, scalable game systems that deliver exceptional player experiences.
-                </p>
-                <p>
-                    My expertise spans from low-level optimization and memory management to high-level gameplay systems, 
-                    with a particular focus on networked multiplayer experiences and engine-level development.
-                </p>
+            <div class="contact-card-text">
+              <span>Email</span>
+              <strong>Joshuart.w.e@gmail.com</strong>
             </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2>Featured Projects</h2>
-            <div class="projects-grid">
-                
-                <!-- Project 1 - Template for Multiplayer Project -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/FPSZombie.png" alt="Project 1">
-                    </div>
-                    <div class="project-content">
-                        <h3>FPSZombie(TempName)</h3>
-                        <p class="project-tech">C# • Unity • Netcode for GameObjects • Lobby • Relay</p>
-                        <p class="project-description">
-                            Developed a real-time multiplayer Unity game with a 4 player lobby system.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/JoshuaTomasso/FPSZombie" class="project-link">GitHub</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 2 - Template for Engine Work -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/KillshotMomentum.png" alt="Project 2">
-                    </div>
-                    <div class="project-content">
-                        <h3>Killshot Momentum</h3>
-                        <p class="project-tech">C++ • Unreal</p>
-                        <p class="project-description">
-                            Took part in making a first person movement based game.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://blitzboys.itch.io/killshotmomentum" class="project-link">Game</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Project 3 - Template for Low-Level Systems -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="Images/LizardWizard.png" alt="Project 3">
-                    </div>
-                    <div class="project-content">
-                        <h3>Lizard Wizard</h3>
-                        <p class="project-tech">C# • Unity</p>
-                        <p class="project-description">
-                            I made the sound system for this game.
-                        </p>
-                        <div class="project-links">
-                            <a href="https://github.com/JoshuaTomasso/Lizard_Wizard" class="project-link">Github</a>
-                        </div>
-                    </div>
-                </div>
+          </a>
+          <a class="contact-card" href="https://github.com/JoshuaTomasso" target="_blank" rel="noreferrer">
+            <div class="contact-icon-wrap">
+              <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
             </div>
-        </div>
-    </section>
-
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2>Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3>Languages</h3>
-                    <ul>
-                        <li>C++</li>
-                        <li>C#</li>
-                        <li>Python</li>
-                        <li>JavaScript</li>
-                        <li>Assembly (x86/x64)</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Game Engines & Tools</h3>
-                    <ul>
-                        <li>Unreal Engine</li>
-                        <li>Unity</li>
-                        <li>Git/Version Control</li>
-                        <li>Visual Studio</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Specializations</h3>
-                    <ul>
-                        <li>Multiplayer Networking</li>
-                        <li>Low-Level Systems Programming</li>
-                        <li>Memory Management</li>
-                        <li>Performance Optimization</li>
-                        <li>Gameplay Programming</li>
-                    </ul>
-                </div>
-                <div class="skill-category">
-                    <h3>Graphics & Rendering</h3>
-                    <ul>
-                        <li>OpenGL/DirectX</li>
-                        <li>Shader Programming (HLSL/GLSL)</li>
-                        <li>Rendering Pipelines</li>
-                        <li>3D Mathematics</li>
-                    </ul>
-                </div>
+            <div class="contact-card-text">
+              <span>GitHub</span>
+              <strong>@JoshuaTomasso</strong>
             </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <p class="contact-intro">
-                I'm currently seeking opportunities in game development. 
-                Let's connect and discuss how I can contribute to your team.
-            </p>
-            <div class="contact-links">
-                <a href="mailto:Joshuart.w.e@gmail.com" class="contact-btn">
-                    <span>Email</span>
-                </a>
-                <a href="https://github.com/JoshuaTomasso" target="_blank" class="contact-btn">
-                    <span>GitHub</span>
-                </a>
-                <a href="https://linkedin.com/in/joshua-tomasso-b73726334" target="_blank" class="contact-btn">
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://github.com/JoshuaTomasso/JoshuaTomasso.github.io/blob/main/Résumé.pdf" target="_blank" class="contact-btn">
-                    <span>Resume</span>
-                </a>
+          </a>
+          <a class="contact-card" href="https://linkedin.com/in/joshua-tomasso-b73726334" target="_blank" rel="noreferrer">
+            <div class="contact-icon-wrap">
+              <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             </div>
+            <div class="contact-card-text">
+              <span>LinkedIn</span>
+              <strong>View Profile</strong>
+            </div>
+          </a>
+          <a class="contact-card" href="Resume.pdf" target="_blank" rel="noreferrer">
+            <div class="contact-icon-wrap">
+              <svg class="contact-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            </div>
+            <div class="contact-card-text">
+              <span>Resume</span>
+              <strong>Open PDF</strong>
+            </div>
+          </a>
         </div>
-    </section>
+      </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Joshua Tomasso. Built with passion for game development.</p>
-        </div>
+      <div class="footer-links">
+        <a class="footer-link" href="mailto:Joshuart.w.e@gmail.com" aria-label="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        </a>
+        <a class="footer-link" href="https://github.com/JoshuaTomasso" target="_blank" rel="noreferrer" aria-label="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.579.688.481C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        </a>
+        <a class="footer-link" href="https://linkedin.com/in/joshua-tomasso-b73726334" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </div>
+      <p>© 2026 Joshua Tomasso</p>
     </footer>
+  </div>
 
-    <script src="script.js"></script>
+  <div class="project-modal-overlay" id="project-modal-overlay" role="dialog" aria-modal="true" aria-label="Project details">
+    <div class="project-modal" id="project-modal">
+      <div class="project-modal-header">
+        <button class="project-modal-close" id="project-modal-close" aria-label="Close project details">✕</button>
+      </div>
+      <iframe class="project-modal-frame" id="project-modal-frame" title="Project details" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
