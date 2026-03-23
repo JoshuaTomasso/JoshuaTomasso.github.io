@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Project case studies for Joshua Tomasso's game development portfolio." />
   <title>Projects | Joshua Tomasso</title>
+  <script>if(window.self!==window.top)document.documentElement.classList.add('in-iframe');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,38 +22,61 @@
     </header>
 
     <main class="projects-list-page">
-      <section class="page-hero reveal">
-        <p class="eyebrow">Projects</p>
-        <h1>Case studies, breakdowns, and supporting media.</h1>
-        <p class="page-hero-copy">Each project page is designed so you can go deeper on your role, implementation details, screenshots, videos, and results.</p>
-      </section>
 
-      <section class="cards-grid reveal reveal-delay-1">
-        <a class="project-list-card" href="fpszombie.html">
-          <img src="../Images/FPSZombie.png" alt="FPSZombie screenshot" />
-          <div>
-            <p class="project-meta">Unity • Multiplayer</p>
+      <div class="projects-hero">
+        <p class="eyebrow">Portfolio</p>
+        <h1>Project Breakdowns</h1>
+        <p class="projects-hero-copy">Detailed write-ups of the systems I built, decisions I made, and what I learned across each project.</p>
+      </div>
+
+      <div class="project-card-list">
+
+        <a class="project-list-card-v2" href="fpszombie.html">
+          <div class="plc-image">
+            <img src="../Images/FPSZombie.png" alt="FPSZombie screenshot" />
+          </div>
+          <div class="plc-body">
+            <p class="eyebrow">Multiplayer Unity Project</p>
             <h2>FPSZombie</h2>
-            <p>Lobby flow, networking, and a 4-player zombie shooter prototype.</p>
+            <p class="plc-desc">A Unity + C# first-person zombie survival shooter with responsive gunplay, survival mechanics, and full multiplayer support through Unity Netcode, Lobby, and Relay.</p>
+            <div class="plc-tags">
+              <span>Unity</span><span>C#</span><span>Networking</span><span>Multiplayer</span>
+            </div>
+            <span class="plc-cta">View Breakdown <span aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
-        <a class="project-list-card" href="killshot-momentum.html">
-          <img src="../Images/KillshotMomentum.png" alt="Killshot Momentum screenshot" />
-          <div>
-            <p class="project-meta">Unreal Engine • C++</p>
+
+        <a class="project-list-card-v2" href="killshot-momentum.html">
+          <div class="plc-image">
+            <img src="../Images/KillshotMomentum.png" alt="Killshot Momentum screenshot" />
+          </div>
+          <div class="plc-body">
+            <p class="eyebrow">Unreal Team Project</p>
             <h2>Killshot Momentum</h2>
-            <p>Movement-focused first-person gameplay built in Unreal with team collaboration.</p>
+            <p class="plc-desc">A fast-paced first-person movement game built in Unreal Engine, focused on momentum, responsiveness, and collaborative gameplay programming in a team environment.</p>
+            <div class="plc-tags">
+              <span>Unreal</span><span>C++</span><span>Movement</span><span>Team Development</span>
+            </div>
+            <span class="plc-cta">View Breakdown <span aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
-        <a class="project-list-card" href="lizard-wizard.html">
-          <img src="../Images/LizardWizard.png" alt="Lizard Wizard screenshot" />
-          <div>
-            <p class="project-meta">Unity • Audio</p>
+
+        <a class="project-list-card-v2" href="lizard-wizard.html">
+          <div class="plc-image">
+            <img src="../Images/LizardWizard.png" alt="Lizard Wizard screenshot" />
+          </div>
+          <div class="plc-body">
+            <p class="eyebrow">Unity Audio Systems</p>
             <h2>Lizard Wizard</h2>
-            <p>Sound system implementation with room for a deeper engineering breakdown.</p>
+            <p class="plc-desc">A Unity C# project where I designed and implemented the game's sound system, connecting audio behavior to gameplay events to strengthen player feedback and overall game feel.</p>
+            <div class="plc-tags">
+              <span>Unity</span><span>C#</span><span>Audio</span><span>Player Feedback</span>
+            </div>
+            <span class="plc-cta">View Breakdown <span aria-hidden="true">&rarr;</span></span>
           </div>
         </a>
-      </section>
+
+      </div>
     </main>
   </div>
   <script src="../script.js"></script>

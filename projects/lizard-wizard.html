@@ -22,12 +22,12 @@
     </header>
 
     <main class="project-page">
-      <section class="project-hero reveal">
+      <a class="back-link" href="index.html">← Back to Projects</a>
+      <section class="project-hero">
         <div>
-          <a class="back-link" href="index.html">← Back to Projects</a>
-          <p class="eyebrow">Unity Audio Systems Work</p>
+          <p class="eyebrow">Unity Audio Systems</p>
           <h1>Lizard Wizard</h1>
-          <p class="page-hero-copy">A Unity project where I focused on the sound system and supported the game’s feedback loop through implementation of audio behavior.</p>
+          <p class="page-hero-copy">A Unity C# project where I designed and implemented the game's sound system, connecting audio behavior to gameplay events to strengthen player feedback and overall game feel.</p>
           <div class="tag-row">
             <span>Unity</span><span>C#</span><span>Audio</span><span>Player Feedback</span>
           </div>
@@ -37,7 +37,7 @@
         </div>
       </section>
 
-      <section class="project-layout reveal reveal-delay-1">
+      <section class="project-layout">
         <aside class="project-sidebar">
           <div class="sidebar-card">
             <span>Role</span>
@@ -56,48 +56,92 @@
         <div class="project-body">
           <article class="content-block">
             <h2>Overview</h2>
-            <p>Lizard Wizard is a Unity game where my main contribution was the sound system. Even though audio work can look small on the surface, it has a major impact on player feedback, readability, and the overall feel of the game.</p>
-<p>This page is structured so you can explain how your audio system was organized, triggered, and kept maintainable as the project grew.</p>
+            <p>Lizard Wizard is a Unity game where my primary contribution was the sound system. Audio work is often undervalued, but it directly impacts player feedback, game readability, and the overall feel of moment-to-moment play.</p>
+            <p>My work involved building the audio architecture in C#, wiring sound triggers to gameplay events, and ensuring audio responses were clean and maintainable as the project grew.</p>
+            <ul class="detail-list">
+              <li>Audio system design and implementation in Unity using C#</li>
+              <li>Gameplay event-driven sound triggering</li>
+              <li>Player feedback and game feel through audio</li>
+              <li>Sound organization and maintainability</li>
+            </ul>
           </article>
         </div>
       </section>
 
       <div class="project-body-full">
           <article class="content-block">
-            <h2>What I worked on</h2>
-            <ul class="detail-list">
-              <li>Implemented the game's sound system in Unity using C#.</li>
-              <li>Connected audio behavior to gameplay events and player feedback moments.</li>
-              <li>Helped strengthen the feel of the game through better sound response and presentation.</li>
-              <li>Created a foundation for expanding the project with cleaner audio organization and future polish.</li>
-            </ul>
-          </article>
+            <h2>What I Worked On</h2>
 
-          <article class="content-block">
-            <h2>Gallery</h2>
-            <div class="gallery-grid">
-              <img src="../Images/LizardWizard.png" alt="Lizard Wizard gallery image" />
-              <div class="gallery-placeholder">
-                Add another screenshot, GIF, or process image here.
-              </div>
-              <div class="gallery-placeholder">
-                Use this space for UI callouts, diagrams, or code snippets as images.
-              </div>
+            <div class="worked-on-item">
+              <h3>[ System Name — e.g. Audio Manager ]</h3>
+              <p>[ Describe the audio system you built. How was it structured? Was it a singleton manager, component-based, data-driven, or something else? ]</p>
+              <ul class="detail-list">
+                <li>[ How audio clips were stored or referenced ]</li>
+                <li>[ How sounds were triggered from gameplay code ]</li>
+                <li>[ Any pooling, mixer routing, or volume management ]</li>
+              </ul>
+              <p class="why-it-matters">[ Why this architecture made the system easy to use and extend throughout the project. ]</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip here ]</div>
             </div>
-          </article>
 
-          <article class="content-block">
-            <h2>Video</h2>
-            <div class="video-placeholder">
-              <p>Paste a YouTube or Vimeo embed into this section when you have footage.</p>
-              <pre>&lt;iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Lizard Wizard video" allowfullscreen&gt;&lt;/iframe&gt;</pre>
+            <div class="worked-on-item">
+              <h3>[ System Name — e.g. Gameplay Sound Events ]</h3>
+              <p>[ Describe how you connected audio to gameplay events. What moments triggered sounds, and how did you wire them up? ]</p>
+              <ul class="detail-list">
+                <li>[ Specific gameplay event that triggered audio ]</li>
+                <li>[ How you listened or subscribed to that event ]</li>
+                <li>[ Any layering, randomization, or variation techniques used ]</li>
+              </ul>
+              <p class="why-it-matters">[ How this improved player feedback and made the game feel more responsive. ]</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip here ]</div>
             </div>
+
+            <div class="worked-on-item">
+              <h3>[ System Name — e.g. UI / Menu Audio ]</h3>
+              <p>[ Describe any UI or menu audio work you did. ]</p>
+              <ul class="detail-list">
+                <li>[ Detail ]</li>
+                <li>[ Detail ]</li>
+              </ul>
+              <p class="why-it-matters">[ Why this was important to the experience. ]</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip here ]</div>
+            </div>
+
           </article>
 
           <article class="content-block">
             <h2>Notes</h2>
-            <p>A great addition here would be a technical section showing how sounds were triggered, how clips were organized, and whether you used mixers, managers, or data-driven approaches.</p>
-            <p>You could also include short clips comparing the game before and after sound implementation to show the value of your contribution.</p>
+
+            <h3>Gameplay Overview</h3>
+            <p>[ Describe how Lizard Wizard plays. What is the core loop? What does the player do? What genre or tone does the game have? ]</p>
+
+            <h3>Audio Architecture</h3>
+            <p>[ Describe how the sound system was organized at a technical level. Did you use Unity's AudioSource directly, a custom manager, scriptable objects, or an audio middleware? ]</p>
+            <ul class="detail-list">
+              <li>[ How clips were stored and referenced ]</li>
+              <li>[ How sounds were triggered — from scripts, events, or animation ]</li>
+              <li>[ Any mixer groups, volume sliders, or dynamic audio logic ]</li>
+            </ul>
+
+            <h3>Controls</h3>
+            <table class="controls-table">
+              <thead>
+                <tr><th>Action</th><th>Input</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>[ Action ]</td><td>[ Key / Button ]</td></tr>
+                <tr><td>[ Action ]</td><td>[ Key / Button ]</td></tr>
+                <tr><td>[ Action ]</td><td>[ Key / Button ]</td></tr>
+                <tr><td>[ Action ]</td><td>[ Key / Button ]</td></tr>
+              </tbody>
+            </table>
+
+            <h3>Future Improvements</h3>
+            <ul class="detail-list">
+              <li>[ Audio feature or polish you would add ]</li>
+              <li>[ Anything that could be refactored or made more data-driven ]</li>
+              <li>[ Dynamic or adaptive audio possibilities ]</li>
+            </ul>
           </article>
       </div>
     </main>
