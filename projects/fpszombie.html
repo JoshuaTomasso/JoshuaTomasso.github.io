@@ -76,93 +76,127 @@
 
             <div class="worked-on-item">
               <h3>Network Camera Positioner</h3>
-              <p>I implemented the networked camera positioning setup for player-owned characters.</p>
+              <p>I implemented the networked camera positioning setup for player-owned characters in the multiplayer scene.</p>
               <ul class="detail-list">
-                <li>The camera is attached to the player prefab with the camera and audio listener initially disabled.</li>
-                <li>When the network object spawns, the camera and audio listener are enabled only for the owning player.</li>
-                <li>During <code>Update()</code>, the camera position and rotation are continuously aligned to the local player's transform.</li>
+                <li><strong>Setup</strong> -The camera and audio listener are attached to the player prefab but toggled off by default so they don't activate for every connected client.</li>
+                <li><strong>Turn On</strong> - When the network object spawns, a check runs to see if the local client is the owner. If so, the camera and audio listener are enabled - no other player activates them.</li>
+                <li><strong>Update</strong> - Every <code>Update()</code>, if the local client owns this object, the camera position and rotation are continuously synced to the player's transform to stay locked to their view.</li>
               </ul>
-              <p class="why-it-matters">This ensures each player only controls and hears from their own perspective in multiplayer, which is a core requirement for a networked FPS.</p>
+              <p class="why-it-matters">This ensures each player in the session only sees and hears from their own perspective. Without this, every spawned player object would attempt to use its camera, which breaks the view entirely in a networked setting.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Positioner here ]</div>
             </div>
 
             <div class="worked-on-item">
               <h3>Network Camera Controller</h3>
-              <p>I built the local player camera controller logic for owner-only input.</p>
+              <p>I built the owner-only camera controller that handles mouse input and cursor state for the local player.</p>
               <ul class="detail-list">
-                <li>Locks and hides the cursor for the owning player at startup.</li>
-                <li>Reads <code>Mouse X</code> and <code>Mouse Y</code> input to drive first-person camera rotation.</li>
-                <li>Unlocks and shows the cursor while the game is paused.</li>
-                <li>Runs only for the owning client to prevent remote players from controlling the local camera.</li>
+                <li><strong>Setup</strong> - The script is attached directly to the camera object on the player prefab.</li>
+                <li><strong>Start</strong> - On startup, if the local client owns this object, the cursor is locked to the center of the screen and hidden - standard FPS behavior.</li>
+                <li><strong>Update</strong> - Only runs for the owning client. If the game is paused, the cursor unlocks and becomes visible for menu interaction. Otherwise, it reads <code>Mouse X</code> and <code>Mouse Y</code> axis values and uses them to rotate the camera for first-person look.</li>
               </ul>
-              <p class="why-it-matters">This cleanly separates local input authority from replicated player objects, which is important in multiplayer game architecture.</p>
+              <p class="why-it-matters">Wrapping all input in an owner check means remote player objects don't read local mouse input - a critical separation in multiplayer where every player object exists in the scene simultaneously.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Controller here ]</div>
             </div>
 
             <div class="worked-on-item">
               <h3>Player Data</h3>
-              <p>I created a player data system to store information that needs to be shared consistently across the network.</p>
+              <p>I created a shared player data system to keep player-specific information consistent across the network.</p>
               <ul class="detail-list">
-                <li>Stores player-specific information in a way that can be accessed by other systems.</li>
-                <li>Supports shared state across players in multiplayer sessions.</li>
-                <li>Can be extended to enforce rules such as preventing duplicate player names in the same lobby.</li>
+                <li>Stores data that needs to be visible and consistent for all connected players, not just the local one.</li>
+                <li>Acts as an extensible location for player identity and session-level state.</li>
+                <li>Can be used to enforce entry rules - for example, checking if an incoming player shares a name with an existing player and blocking them from joining the lobby if so.</li>
               </ul>
-              <p class="why-it-matters">This provides a foundation for synchronized player identity, validation, and future multiplayer features.</p>
+              <p class="why-it-matters">Having a centralized, networked data container prevents systems from needing to reach into individual player objects to grab shared info. It also makes lobby validation and future multiplayer features easier to build on top of.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Player Data here ]</div>
             </div>
 
             <div class="worked-on-item">
               <h3>Zombie Game Multiplayer</h3>
-              <p>I worked on the main multiplayer manager using Netcode for GameObjects.</p>
+              <p>I built the main multiplayer session manager using Netcode for GameObjects that persists with the host across scenes.</p>
               <ul class="detail-list">
-                <li>Lives on an empty scene object and persists with <code>DontDestroyOnLoad</code>.</li>
-                <li>Handles the distinction between single-player and multiplayer startup flow.</li>
-                <li>Starts the host/server path for single-player and loads into lobby flow for multiplayer.</li>
-                <li>Sets up join checks, player data, and server-related delegates used by other systems.</li>
+                <li><strong>Setup</strong> - Attached to an empty object in the scene where the server and lobby are initialized. Marked as <code>DontDestroyOnLoad</code> so it carries forward with the host through scene transitions.</li>
+                <li><strong>Single Player</strong> - When the player clicks the single-player button on the main menu, a boolean is set to <code>false</code>. This allows the game to start immediately as a host and then load the map.</li>
+                <li><strong>Multiplayer</strong> - When the player clicks the multiplayer button, the boolean is set to <code>true</code>. This bypasses starting a server automatically and instead loads into the lobby creation scene.</li>
+                <li><strong>Other</strong> - This class also handles join validation checks, initializes <code>PlayerData</code>, and sets up server-related delegates used by other systems throughout the project.</li>
               </ul>
-              <p class="why-it-matters">This system coordinates the core networking flow and ties together scene transitions, host/client startup, and shared session behavior.</p>
+              <p class="why-it-matters">Centralizing the single-player vs. multiplayer branching logic into one persistent manager keeps the flow clean and predictable. Other systems can rely on this object being present and initialized rather than managing their own startup paths.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Multiplayer here ]</div>
             </div>
 
             <div class="worked-on-item">
               <h3>Zombie Game Lobby</h3>
-              <p>I built the lobby system using Unity Lobby and Unity Relay.</p>
+              <p>I built the full lobby system using Unity's Lobby and Relay packages, supporting multiple ways for players to create and join sessions.</p>
               <ul class="detail-list">
-                <li>Creates public or private lobbies using an entered name.</li>
-                <li>Sets up Relay so players can connect without manual networking configuration.</li>
-                <li>Supports Quick Join, Join with Code, and Join with Lobby ID.</li>
-                <li>Filters and lists available lobbies that still have open slots.</li>
-                <li>Maintains periodic lobby refresh and heartbeat updates so lobbies remain visible and active.</li>
+                <li><strong>Setup</strong> - Attached to an empty in the same scene as the Netcode objects, also marked as <code>DontDestroyOnLoad</code> so lobby state persists with the host.</li>
+                <li><strong>Create Lobby</strong> - Takes an entered name and a public/private toggle to create the lobby. Relay is configured at this step so players can connect without manual port-forwarding or network setup. The host runs the server; clients connect to it through Relay.</li>
+                <li><strong>Quick Join</strong> - Uses Unity Lobby's <code>QuickJoinLobby</code> to find any available session, grabs the relay data from the joined lobby, and starts the client connection through Netcode.</li>
+                <li><strong>Join with Code</strong> - Takes an entered lobby code, finds and joins the associated lobby, sets up relay data, then starts the Netcode client.</li>
+                <li><strong>Join with ID</strong> - Triggers when a player clicks a specific lobby in the list. Joins by lobby ID, sets up relay data, and starts the Netcode client.</li>
+                <li><strong>List Lobbies</strong> - Queries available lobbies, filters out full ones, and updates a public list used to populate the lobby browser UI.</li>
+                <li><strong>Heartbeat &amp; Periodic Refresh</strong> - Two timed handlers keep lobbies alive in Unity's service and keep the visible lobby list current.</li>
               </ul>
-              <p class="why-it-matters">This shows practical experience with modern multiplayer services and session UX, which is a strong portfolio signal for gameplay and network roles.</p>
+              <p class="why-it-matters">Implementing three separate join paths (Quick Join, Code, and ID) mirrors how production multiplayer games handle matchmaking UX. Relay removes the need for players to configure networking, which is a real barrier in player-hosted games.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Lobby here ]</div>
             </div>
 
             <div class="worked-on-item">
               <h3>Network Player Prefab</h3>
-              <p>I structured the network player prefab to support both gameplay and multiplayer requirements.</p>
+              <p>I structured the networked player prefab to group all gameplay, visual, camera, and HUD systems in a clean, intentional hierarchy.</p>
               <ul class="detail-list">
-                <li>A main root object containing the player's gameplay scripts.</li>
-                <li>A camera hierarchy for network-aware first-person control.</li>
-                <li>Visual player models where only the selected model is enabled.</li>
-                <li>Animators driven by player animation logic.</li>
-                <li>Step ray helper objects for stepping up stairs and uneven surfaces.</li>
-                <li>HUD elements for health, ammo, and crosshair display.</li>
+                <li><strong>Root</strong> - An empty that holds all gameplay scripts and acts as the parent for all child systems.</li>
+                <li><strong>Camera Hierarchy</strong> - The camera and its controller are parented under a separate empty. This keeps all camera-related logic grouped and separable from the rest of the player.</li>
+                <li><strong>Player Visual</strong> - Holds all available models. Only the selected model is toggled on when the scene loads. Each model has its own animator driven by the Player Animation script.</li>
+                <li><strong>Step Ray Lower / Upper</strong> - Two empty objects that drive stair-step logic. When only the lower raycast hits geometry (and not the upper), the player is moved upward on the Y axis in the direction of movement, allowing smooth step traversal.</li>
+                <li><strong>HUD</strong> - UI elements for health, ammo, and crosshair. Currently includes a delay indicator used to test input latency during development.</li>
               </ul>
-              <p class="why-it-matters">This demonstrates thoughtful prefab organization combining movement, visuals, camera handling, animation, and UI into a reusable player setup.</p>
+              <p class="why-it-matters">A well-organized prefab makes iteration faster, debugging easier, and onboarding clearer. Keeping movement logic, camera logic, visuals, and UI in separate branches means changes to one don't break others.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Network Player Prefab here ]</div>
             </div>
 
             <div class="worked-on-item">
               <h3>Network Zombie Prefab</h3>
-              <p>I worked with a zombie prefab setup where logic and colliders are kept separate from the visual model.</p>
+              <p>I worked with a zombie prefab where scripts and colliders are kept on a separate empty from the visual model.</p>
               <ul class="detail-list">
-                <li>Gameplay logic and collision are separated from the visual model hierarchy.</li>
-                <li>Improves flexibility and keeps gameplay systems cleaner.</li>
-                <li>Supports easier iteration on enemy visuals or animation without touching core logic.</li>
+                <li>All gameplay logic and colliders live on a root empty, not on the model itself.</li>
+                <li>The visual model is a child that can be swapped, updated, or animated independently without touching gameplay code.</li>
               </ul>
-              <p class="why-it-matters">Separating logic from visuals is a practical prefab design habit that pays off during iteration and debugging.</p>
+              <p class="why-it-matters">Separating logic from visuals is a practical prefab design habit. It means artist or animation changes don't risk breaking hitboxes or scripts, and the model can be iterated on without touching gameplay.</p>
               <div class="gallery-placeholder">[ Add screenshot or video clip for Network Zombie Prefab here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Sound FX and Music</h3>
+              <p>I set up the audio architecture for the project, keeping sound effects and music on separate systems with independent volume control.</p>
+              <ul class="detail-list">
+                <li><strong>Sound FX Setup</strong> - Sound effects play through a dynamically spawned audio source prefab. Spawning is handled entirely through the <code>SoundFXManager</code>. Any system that wants to play a sound calls a function through the manager's instance. All sound effects play in a 3D spatial environment so they have positional falloff.</li>
+                <li><strong>Music Setup</strong> - Music plays from a pre-placed empty object already in the scene. It starts on spawn, loops continuously, and plays through a 2D environment so it has no positional effect.</li>
+                <li><strong>Volume</strong> - Volume for both channels is handled through the <code>SoundMixerManager</code>. Music and sound effects are controlled independently, so adjusting one doesn't affect the other. A master volume slider can lower everything at once.</li>
+              </ul>
+              <p class="why-it-matters">Splitting sound effects and music into separate spawning systems and mixer channels is a standard production audio pattern. It gives designers and players independent control over each layer without them interfering with each other.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX and Music here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Sound FX Manager</h3>
+              <p>I built a singleton manager responsible for all runtime sound effect spawning in the game.</p>
+              <ul class="detail-list">
+                <li>Implemented as a <code>DontDestroyOnLoad</code> singleton - if additional instances are loaded, they self-destroy to prevent duplicates.</li>
+                <li><strong><code>PlaySoundFXClip</code></strong> - Takes an audio clip, a world position, a volume value, and a spatial blend. Spawns an audio source prefab at that position, configures it with the provided settings, plays the clip, then destroys the object once playback finishes.</li>
+                <li><strong><code>PlayRandomSoundFXClip</code></strong> - Takes an array of audio clips along with the same position, volume, and spatial blend parameters. Picks a random clip using the array length as the upper bound, then spawns and plays it the same way as the single-clip version.</li>
+              </ul>
+              <p class="why-it-matters">Routing all sound effect playback through a single manager makes it easy to add new sounds to any system without duplicating audio logic. The random clip variant adds natural variation to repeated sounds like footsteps or impacts.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX Manager here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Sound Mixer Manager</h3>
+              <p>I built a singleton volume manager that controls audio mixer levels for sound effects, music, and master volume.</p>
+              <ul class="detail-list">
+                <li>Implemented as a <code>DontDestroyOnLoad</code> singleton - destroys extra instances if more than one is loaded.</li>
+                <li><strong><code>Set[Type]Volume</code></strong> - Each function targets a specific mixer group (SFX, Music, or Master) and applies volume using <code>Log10</code>. Unity's audio mixers use an exponential decibel scale, so the raw slider value is converted through <code>Log10</code> to produce a perceptually linear result for the player.</li>
+              </ul>
+              <p class="why-it-matters">Using <code>Log10</code> for volume conversion is a technical detail that matters a lot in practice - a linear slider without it would make the lower half of the range nearly silent and the upper half barely audible as a difference. Getting this right means the volume slider actually feels proportional to the player.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Sound Mixer Manager here ]</div>
             </div>
 
           </article>
@@ -200,11 +234,11 @@
             <h3>Scene / Flow Overview</h3>
             <p>The game includes a complete flow rather than a single isolated test level:</p>
             <ul class="detail-list">
-              <li><strong>Main Menu</strong> — select single-player or multiplayer</li>
-              <li><strong>Lobby / Create / Join flow</strong> — multiplayer session setup</li>
+              <li><strong>Main Menu</strong> - select single-player or multiplayer</li>
+              <li><strong>Lobby / Create / Join flow</strong> - multiplayer session setup</li>
               <li><strong>Character selection / player setup flow</strong></li>
-              <li><strong>Gameplay maps</strong> — survival combat takes place here</li>
-              <li><strong>Pause and HUD systems</strong> — active during play</li>
+              <li><strong>Gameplay maps</strong> - survival combat takes place here</li>
+              <li><strong>Pause and HUD systems</strong> - active during play</li>
             </ul>
             <p>This demonstrates work across gameplay, UI, and session flow rather than only a single mechanic.</p>
 
