@@ -157,9 +157,11 @@
                 <li><strong>Heartbeat &amp; Periodic Refresh</strong> - Two timed handlers keep lobbies alive in Unity's service and keep the visible lobby list current.</li>
               </ul>
               <p class="why-it-matters">Implementing three separate join paths (Quick Join, Code, and ID) mirrors how production multiplayer games handle matchmaking UX. Relay removes the need for players to configure networking, which is a real barrier in player-hosted games.</p>
-              <!-- <div class="project-media project-media--solo-video">
-                <video src="../Images/FPSZombie_zombieGameLobby.mp4" alt="Zombie Game Lobby Script Setup in Unity" controls></video>
-              </div> -->
+              <div class="project-media project-media--stack">
+                <div class="project-media-video-ratio">
+                  <iframe src="https://www.youtube.com/embed/wBWbf109CBw?si=RzGu8XE37gLeIZ4u" title="Zombie Game Multiplayer Lobby Script" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+              </div>
             </div>
 
             <div class="worked-on-item">
@@ -237,6 +239,13 @@
 
           <article class="content-block">
             <h2>Notes</h2>
+
+            <figure class="project-media-video">
+              <div class="project-media-video-ratio">
+                <iframe src="https://www.youtube.com/embed/_JSaGgaqof0?si=3qGX4nYWuuP7XmBs" title="Zombie FPS gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              </div>
+              <figcaption>FPS Zombie Gameplay Demo</figcaption>
+            </figure>
 
             <h3>Gameplay Loop</h3>
             <p>Players spawn into the map and must quickly find and use weapons to survive incoming zombie attacks. After short intervals, zombies begin running toward the closest player, creating constant pressure and forcing players to balance movement, aim, ammo, and survival decisions. When a zombie is killed, it can randomly drop <strong>health</strong> or <strong>ammo</strong>, adding a resource-management layer to the combat loop.</p>

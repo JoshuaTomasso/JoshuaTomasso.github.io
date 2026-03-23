@@ -958,6 +958,13 @@ pre {
   margin-left: auto;
   margin-right: auto;
 }
+.project-media-video figcaption {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted, #888);
+  font-style: italic;
+}
 .project-media-video-ratio {
   position: relative;
   padding-bottom: 56.25%;
