@@ -157,7 +157,9 @@
                 <li><strong>Heartbeat &amp; Periodic Refresh</strong> - Two timed handlers keep lobbies alive in Unity's service and keep the visible lobby list current.</li>
               </ul>
               <p class="why-it-matters">Implementing three separate join paths (Quick Join, Code, and ID) mirrors how production multiplayer games handle matchmaking UX. Relay removes the need for players to configure networking, which is a real barrier in player-hosted games.</p>
-              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Lobby here ]</div> -->
+              <!-- <div class="project-media project-media--solo-video">
+                <video src="../Images/FPSZombie_zombieGameLobby.mp4" alt="Zombie Game Lobby Script Setup in Unity" controls></video>
+              </div> -->
             </div>
 
             <div class="worked-on-item">
@@ -198,7 +200,7 @@
                 <li><strong>Volume</strong> - Volume for both channels is handled through the <code>SoundMixerManager</code>. Music and sound effects are controlled independently, so adjusting one doesn't affect the other. A master volume slider can lower everything at once.</li>
               </ul>
               <p class="why-it-matters">Splitting sound effects and music into separate spawning systems and mixer channels is a standard production audio pattern. It gives designers and players independent control over each layer without them interfering with each other.</p>
-              <div class="project-media">
+              <div class="project-media project-media--stack">
                 <img src="../Images/FPSZombie_music.png" alt="Music setup in Unity" />
                 <img src="../Images/FPSZombie_soundFXPrefab.png" alt="Sound FX setup in Unity" />
               </div>

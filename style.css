@@ -939,6 +939,11 @@ pre {
   flex-direction: column;
   gap: 12px;
 }
+.project-media--stack > img,
+.project-media--stack > video {
+  width: 100%;
+  flex: none;
+}
 .project-media--stack .project-media--grid {
   width: 100%;
   flex: none;
