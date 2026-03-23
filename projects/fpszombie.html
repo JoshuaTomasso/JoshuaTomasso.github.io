@@ -82,8 +82,12 @@
                 <li><strong>Turn On</strong> - When the network object spawns, a check runs to see if the local client is the owner. If so, the camera and audio listener are enabled - no other player activates them.</li>
                 <li><strong>Update</strong> - Every <code>Update()</code>, if the local client owns this object, the camera position and rotation are continuously synced to the player's transform to stay locked to their view.</li>
               </ul>
-              <p class="why-it-matters">This ensures each player in the session only sees and hears from their own perspective. Without this, every spawned player object would attempt to use its camera, which breaks the view entirely in a networked setting.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Positioner here ]</div>
+              <p class="why-it-matters">This makes sure each player only controls and hears from their own perspective in multiplayer, which is a core requirement for a networked FPS.</p>
+              <div class="project-media">
+                <img src="../Images/FPSZombie_cameraSetupController.png" alt="Network Camera Controller setup in Unity" />
+                <img src="../Images/FPSZombie_cameraSetupPositioner.png" alt="Network Camera Positioner setup in Unity" />
+                <img src="../Images/FPSZombie_characterSelectVisual.png" alt="Character Select Visual setup in Unity" />
+              </div>
             </div>
 
             <div class="worked-on-item">
@@ -95,7 +99,11 @@
                 <li><strong>Update</strong> - Only runs for the owning client. If the game is paused, the cursor unlocks and becomes visible for menu interaction. Otherwise, it reads <code>Mouse X</code> and <code>Mouse Y</code> axis values and uses them to rotate the camera for first-person look.</li>
               </ul>
               <p class="why-it-matters">Wrapping all input in an owner check means remote player objects don't read local mouse input - a critical separation in multiplayer where every player object exists in the scene simultaneously.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Controller here ]</div>
+              <div class="project-media">
+                <img src="../Images/FPSZombie_cameraSetupController.png" alt="Network Camera Controller setup in Unity" />
+                <img src="../Images/FPSZombie_cameraSetupPositioner.png" alt="Network Camera Positioner setup in Unity" />
+                <img src="../Images/FPSZombie_characterSelectVisual.png" alt="Character Select Visual setup in Unity" />
+              </div>
             </div>
 
             <div class="worked-on-item">
@@ -107,10 +115,12 @@
                 <li>Can be used to enforce entry rules - for example, checking if an incoming player shares a name with an existing player and blocking them from joining the lobby if so.</li>
               </ul>
               <p class="why-it-matters">Having a centralized, networked data container prevents systems from needing to reach into individual player objects to grab shared info. It also makes lobby validation and future multiplayer features easier to build on top of.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Player Data here ]</div>
+              <div class="project-media project-media--third">
+                <img src="../Images/FPSZombie_playerData.png" alt="Player Data setup in Unity" />
+              </div>
             </div>
 
-            <div class="worked-on-item">
+            <div class="worked-on-item"> 
               <h3>Zombie Game Multiplayer</h3>
               <p>I built the main multiplayer session manager using Netcode for GameObjects that persists with the host across scenes.</p>
               <ul class="detail-list">
@@ -120,7 +130,7 @@
                 <li><strong>Other</strong> - This class also handles join validation checks, initializes <code>PlayerData</code>, and sets up server-related delegates used by other systems throughout the project.</li>
               </ul>
               <p class="why-it-matters">Centralizing the single-player vs. multiplayer branching logic into one persistent manager keeps the flow clean and predictable. Other systems can rely on this object being present and initialized rather than managing their own startup paths.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Multiplayer here ]</div>
+              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Multiplayer here ]</div> -->
             </div>
 
             <div class="worked-on-item">
@@ -136,7 +146,7 @@
                 <li><strong>Heartbeat &amp; Periodic Refresh</strong> - Two timed handlers keep lobbies alive in Unity's service and keep the visible lobby list current.</li>
               </ul>
               <p class="why-it-matters">Implementing three separate join paths (Quick Join, Code, and ID) mirrors how production multiplayer games handle matchmaking UX. Relay removes the need for players to configure networking, which is a real barrier in player-hosted games.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Lobby here ]</div>
+              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Lobby here ]</div> -->
             </div>
 
             <div class="worked-on-item">
@@ -150,7 +160,9 @@
                 <li><strong>HUD</strong> - UI elements for health, ammo, and crosshair. Currently includes a delay indicator used to test input latency during development.</li>
               </ul>
               <p class="why-it-matters">A well-organized prefab makes iteration faster, debugging easier, and onboarding clearer. Keeping movement logic, camera logic, visuals, and UI in separate branches means changes to one don't break others.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Player Prefab here ]</div>
+              <div class="project-media project-media--solo-video">
+                <video src="../Images/FPSZombie_networkPlayerPrefab.mp4" alt="Player Data setup in Unity" controls></video>
+              </div>
             </div>
 
             <div class="worked-on-item">
@@ -161,7 +173,7 @@
                 <li>The visual model is a child that can be swapped, updated, or animated independently without touching gameplay code.</li>
               </ul>
               <p class="why-it-matters">Separating logic from visuals is a practical prefab design habit. It means artist or animation changes don't risk breaking hitboxes or scripts, and the model can be iterated on without touching gameplay.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Zombie Prefab here ]</div>
+              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Network Zombie Prefab here ]</div> -->
             </div>
 
             <div class="worked-on-item">
@@ -173,7 +185,7 @@
                 <li><strong>Volume</strong> - Volume for both channels is handled through the <code>SoundMixerManager</code>. Music and sound effects are controlled independently, so adjusting one doesn't affect the other. A master volume slider can lower everything at once.</li>
               </ul>
               <p class="why-it-matters">Splitting sound effects and music into separate spawning systems and mixer channels is a standard production audio pattern. It gives designers and players independent control over each layer without them interfering with each other.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX and Music here ]</div>
+              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX and Music here ]</div> -->
             </div>
 
             <div class="worked-on-item">
@@ -185,7 +197,7 @@
                 <li><strong><code>PlayRandomSoundFXClip</code></strong> - Takes an array of audio clips along with the same position, volume, and spatial blend parameters. Picks a random clip using the array length as the upper bound, then spawns and plays it the same way as the single-clip version.</li>
               </ul>
               <p class="why-it-matters">Routing all sound effect playback through a single manager makes it easy to add new sounds to any system without duplicating audio logic. The random clip variant adds natural variation to repeated sounds like footsteps or impacts.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX Manager here ]</div>
+              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX Manager here ]</div> -->
             </div>
 
             <div class="worked-on-item">
@@ -196,7 +208,7 @@
                 <li><strong><code>Set[Type]Volume</code></strong> - Each function targets a specific mixer group (SFX, Music, or Master) and applies volume using <code>Log10</code>. Unity's audio mixers use an exponential decibel scale, so the raw slider value is converted through <code>Log10</code> to produce a perceptually linear result for the player.</li>
               </ul>
               <p class="why-it-matters">Using <code>Log10</code> for volume conversion is a technical detail that matters a lot in practice - a linear slider without it would make the lower half of the range nearly silent and the upper half barely audible as a difference. Getting this right means the volume slider actually feels proportional to the player.</p>
-              <div class="gallery-placeholder">[ Add screenshot or video clip for Sound Mixer Manager here ]</div>
+              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Sound Mixer Manager here ]</div> -->
             </div>
 
           </article>

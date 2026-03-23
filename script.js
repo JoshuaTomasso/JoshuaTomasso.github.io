@@ -99,6 +99,42 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// ── Image Lightbox ────────────────────────────────────────────────
+const lightbox = document.createElement('div');
+lightbox.className = 'img-lightbox';
+lightbox.innerHTML = '<button class="img-lightbox-close" aria-label="Close image">✕</button><img src="" alt="" />';
+document.body.appendChild(lightbox);
+
+const lightboxImg = lightbox.querySelector('img');
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || '';
+  lightbox.classList.add('is-open');
+  document.body.classList.add('modal-open');
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('is-open');
+  document.body.classList.remove('modal-open');
+  lightboxImg.src = '';
+}
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target !== lightboxImg) closeLightbox();
+});
+
+lightbox.querySelector('.img-lightbox-close').addEventListener('click', closeLightbox);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox.classList.contains('is-open')) closeLightbox();
+});
+
+document.addEventListener('click', (e) => {
+  const img = e.target.closest('.project-media img');
+  if (img) openLightbox(img.src, img.alt);
+});
+
 // Intercept all project-card links on the main page
 document.querySelectorAll('.project-card a[href]').forEach((link) => {
   if (/projects\//.test(link.getAttribute('href'))) {
