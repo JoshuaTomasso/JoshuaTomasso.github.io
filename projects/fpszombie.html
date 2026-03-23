@@ -22,12 +22,12 @@
     </header>
 
     <main class="project-page">
-      <section class="project-hero reveal">
+      <a class="back-link" href="index.html">← Back to Projects</a>
+      <section class="project-hero">
         <div>
-          <a class="back-link" href="index.html">← Back to Projects</a>
           <p class="eyebrow">Multiplayer Unity Project</p>
           <h1>FPSZombie</h1>
-          <p class="page-hero-copy">A networked zombie shooter prototype centered on getting multiple players into the same match, keeping the session flow readable, and building a solid foundation for online play.</p>
+          <p class="page-hero-copy">A Unity + C# first-person zombie survival shooter with responsive gunplay, survival mechanics, and full multiplayer support through Unity Netcode, Lobby, and Relay.</p>
           <div class="tag-row">
             <span>Unity</span><span>C#</span><span>Networking</span><span>Multiplayer</span>
           </div>
@@ -37,7 +37,7 @@
         </div>
       </section>
 
-      <section class="project-layout reveal reveal-delay-1">
+      <section class="project-layout">
         <aside class="project-sidebar">
           <div class="sidebar-card">
             <span>Role</span>
@@ -56,48 +56,168 @@
         <div class="project-body">
           <article class="content-block">
             <h2>Overview</h2>
-            <p>FPSZombie is a multiplayer-focused Unity prototype built around cooperative or competitive zombie shooting gameplay. The most interesting part of the project is the online layer: getting players into a lobby, joining the same session, and creating a playable shared experience.</p>
-<p>This page is set up so you can expand it further with exact systems you built, engineering tradeoffs, screenshots of code, and gameplay footage from real sessions.</p>
+            <p>FPS Zombie is a first-person zombie survival game where players enter a town-based environment, collect weapons, and defend themselves against zombies that aggressively track the nearest player. The core objective is simple: survive as long as possible.</p>
+            <p>The project includes both single-player and multiplayer flows, along with gameplay systems for movement, shooting, pickups, health, death, UI, audio feedback, and networked player support.</p>
+            <ul class="detail-list">
+              <li>First-person gameplay programming in Unity using C#</li>
+              <li>Combat and weapon interaction systems</li>
+              <li>Enemy pursuit and survival loop design</li>
+              <li>HUD and player feedback systems</li>
+              <li>Multiplayer architecture using Unity Netcode for GameObjects</li>
+              <li>Lobby and Relay integration for session creation and joining</li>
+            </ul>
           </article>
         </div>
       </section>
 
       <div class="project-body-full">
           <article class="content-block">
-            <h2>What I worked on</h2>
-            <ul class="detail-list">
-              <li>Built or supported the multiplayer session flow using Unity services such as Lobby and Relay.</li>
-              <li>Worked in C# inside Unity to connect gameplay features to the networking layer.</li>
-              <li>Helped shape a 4-player experience where players could enter and play in the same shared game session.</li>
-              <li>Created a foundation you can keep iterating on with UI, enemy behavior, weapons, replication polish, and match flow.</li>
-            </ul>
-          </article>
+            <h2>What I Worked On</h2>
 
-          <article class="content-block">
-            <h2>Gallery</h2>
-            <div class="gallery-grid">
-              <img src="../Images/FPSZombie.png" alt="FPSZombie gallery image" />
-              <div class="gallery-placeholder">
-                Add another screenshot, GIF, or process image here.
-              </div>
-              <div class="gallery-placeholder">
-                Use this space for UI callouts, diagrams, or code snippets as images.
-              </div>
+            <div class="worked-on-item">
+              <h3>Network Camera Positioner</h3>
+              <p>I implemented the networked camera positioning setup for player-owned characters.</p>
+              <ul class="detail-list">
+                <li>The camera is attached to the player prefab with the camera and audio listener initially disabled.</li>
+                <li>When the network object spawns, the camera and audio listener are enabled only for the owning player.</li>
+                <li>During <code>Update()</code>, the camera position and rotation are continuously aligned to the local player's transform.</li>
+              </ul>
+              <p class="why-it-matters">This ensures each player only controls and hears from their own perspective in multiplayer, which is a core requirement for a networked FPS.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Positioner here ]</div>
             </div>
-          </article>
 
-          <article class="content-block">
-            <h2>Video</h2>
-            <div class="video-placeholder">
-              <p>Paste a YouTube or Vimeo embed into this section when you have footage.</p>
-              <pre>&lt;iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="FPSZombie video" allowfullscreen&gt;&lt;/iframe&gt;</pre>
+            <div class="worked-on-item">
+              <h3>Network Camera Controller</h3>
+              <p>I built the local player camera controller logic for owner-only input.</p>
+              <ul class="detail-list">
+                <li>Locks and hides the cursor for the owning player at startup.</li>
+                <li>Reads <code>Mouse X</code> and <code>Mouse Y</code> input to drive first-person camera rotation.</li>
+                <li>Unlocks and shows the cursor while the game is paused.</li>
+                <li>Runs only for the owning client to prevent remote players from controlling the local camera.</li>
+              </ul>
+              <p class="why-it-matters">This cleanly separates local input authority from replicated player objects, which is important in multiplayer game architecture.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Camera Controller here ]</div>
             </div>
+
+            <div class="worked-on-item">
+              <h3>Player Data</h3>
+              <p>I created a player data system to store information that needs to be shared consistently across the network.</p>
+              <ul class="detail-list">
+                <li>Stores player-specific information in a way that can be accessed by other systems.</li>
+                <li>Supports shared state across players in multiplayer sessions.</li>
+                <li>Can be extended to enforce rules such as preventing duplicate player names in the same lobby.</li>
+              </ul>
+              <p class="why-it-matters">This provides a foundation for synchronized player identity, validation, and future multiplayer features.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Player Data here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Zombie Game Multiplayer</h3>
+              <p>I worked on the main multiplayer manager using Netcode for GameObjects.</p>
+              <ul class="detail-list">
+                <li>Lives on an empty scene object and persists with <code>DontDestroyOnLoad</code>.</li>
+                <li>Handles the distinction between single-player and multiplayer startup flow.</li>
+                <li>Starts the host/server path for single-player and loads into lobby flow for multiplayer.</li>
+                <li>Sets up join checks, player data, and server-related delegates used by other systems.</li>
+              </ul>
+              <p class="why-it-matters">This system coordinates the core networking flow and ties together scene transitions, host/client startup, and shared session behavior.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Multiplayer here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Zombie Game Lobby</h3>
+              <p>I built the lobby system using Unity Lobby and Unity Relay.</p>
+              <ul class="detail-list">
+                <li>Creates public or private lobbies using an entered name.</li>
+                <li>Sets up Relay so players can connect without manual networking configuration.</li>
+                <li>Supports Quick Join, Join with Code, and Join with Lobby ID.</li>
+                <li>Filters and lists available lobbies that still have open slots.</li>
+                <li>Maintains periodic lobby refresh and heartbeat updates so lobbies remain visible and active.</li>
+              </ul>
+              <p class="why-it-matters">This shows practical experience with modern multiplayer services and session UX, which is a strong portfolio signal for gameplay and network roles.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Zombie Game Lobby here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Network Player Prefab</h3>
+              <p>I structured the network player prefab to support both gameplay and multiplayer requirements.</p>
+              <ul class="detail-list">
+                <li>A main root object containing the player's gameplay scripts.</li>
+                <li>A camera hierarchy for network-aware first-person control.</li>
+                <li>Visual player models where only the selected model is enabled.</li>
+                <li>Animators driven by player animation logic.</li>
+                <li>Step ray helper objects for stepping up stairs and uneven surfaces.</li>
+                <li>HUD elements for health, ammo, and crosshair display.</li>
+              </ul>
+              <p class="why-it-matters">This demonstrates thoughtful prefab organization combining movement, visuals, camera handling, animation, and UI into a reusable player setup.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Player Prefab here ]</div>
+            </div>
+
+            <div class="worked-on-item">
+              <h3>Network Zombie Prefab</h3>
+              <p>I worked with a zombie prefab setup where logic and colliders are kept separate from the visual model.</p>
+              <ul class="detail-list">
+                <li>Gameplay logic and collision are separated from the visual model hierarchy.</li>
+                <li>Improves flexibility and keeps gameplay systems cleaner.</li>
+                <li>Supports easier iteration on enemy visuals or animation without touching core logic.</li>
+              </ul>
+              <p class="why-it-matters">Separating logic from visuals is a practical prefab design habit that pays off during iteration and debugging.</p>
+              <div class="gallery-placeholder">[ Add screenshot or video clip for Network Zombie Prefab here ]</div>
+            </div>
+
           </article>
 
           <article class="content-block">
             <h2>Notes</h2>
-            <p>A strong next step for this page would be adding a short architecture section with diagrams for host flow, connection states, and how player objects are spawned and synchronized.</p>
-            <p>You can also include a short "Challenges" section here describing issues like connection setup, state synchronization, spawn timing, or debugging multiplayer-specific bugs.</p>
+
+            <h3>Gameplay Loop</h3>
+            <p>Players spawn into the map and must quickly find and use weapons to survive incoming zombie attacks. After short intervals, zombies begin running toward the closest player, creating constant pressure and forcing players to balance movement, aim, ammo, and survival decisions. When a zombie is killed, it can randomly drop <strong>health</strong> or <strong>ammo</strong>, adding a resource-management layer to the combat loop.</p>
+            <ol class="detail-list">
+              <li>Explore the map and pick up weapons</li>
+              <li>Fight off approaching zombies</li>
+              <li>Manage ammo and reload timing</li>
+              <li>Recover health and supplies from drops</li>
+              <li>Respawn and re-enter the fight after death</li>
+            </ol>
+
+            <h3>Controls</h3>
+            <table class="controls-table">
+              <thead>
+                <tr><th>Action</th><th>Input</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Move</td><td>W / A / S / D</td></tr>
+                <tr><td>Look</td><td>Mouse Move</td></tr>
+                <tr><td>Sprint</td><td>Left Shift</td></tr>
+                <tr><td>Jump</td><td>Spacebar</td></tr>
+                <tr><td>Pick Up / Drop Weapon</td><td>E</td></tr>
+                <tr><td>Shoot</td><td>Left Mouse Button</td></tr>
+                <tr><td>Reload</td><td>R</td></tr>
+                <tr><td>Pause Game</td><td>P or Esc</td></tr>
+              </tbody>
+            </table>
+
+            <h3>Scene / Flow Overview</h3>
+            <p>The game includes a complete flow rather than a single isolated test level:</p>
+            <ul class="detail-list">
+              <li><strong>Main Menu</strong> — select single-player or multiplayer</li>
+              <li><strong>Lobby / Create / Join flow</strong> — multiplayer session setup</li>
+              <li><strong>Character selection / player setup flow</strong></li>
+              <li><strong>Gameplay maps</strong> — survival combat takes place here</li>
+              <li><strong>Pause and HUD systems</strong> — active during play</li>
+            </ul>
+            <p>This demonstrates work across gameplay, UI, and session flow rather than only a single mechanic.</p>
+
+            <h3>Future Improvements</h3>
+            <ul class="detail-list">
+              <li>Additional zombie types and behaviors</li>
+              <li>More weapons and weapon-switching support</li>
+              <li>Round progression and difficulty scaling</li>
+              <li>Expanded maps and encounter design</li>
+              <li>More advanced animation and state transitions</li>
+              <li>Scoreboards, match stats, or progression tracking</li>
+              <li>Additional multiplayer polish and UX improvements</li>
+            </ul>
           </article>
       </div>
     </main>
