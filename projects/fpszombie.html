@@ -130,12 +130,17 @@
                 <li><strong>Other</strong> - This class also handles join validation checks, initializes <code>PlayerData</code>, and sets up server-related delegates used by other systems throughout the project.</li>
               </ul>
               <p class="why-it-matters">Centralizing the single-player vs. multiplayer branching logic into one persistent manager keeps the flow clean and predictable. Other systems can rely on this object being present and initialized rather than managing their own startup paths.</p>
-              <div class="project-media">
-                <img src="../Images/FPSZombie_zombieGameMultiplayer1.png" alt="Zombie Game Multiplayer setup 1" />
-                <img src="../Images/FPSZombie_zombieGameMultiplayer2.png" alt="Zombie Game Multiplayer setup 2" />
-                <img src="../Images/FPSZombie_zombieGameMultiplayer3.png" alt="Zombie Game Multiplayer setup 3" />
-                <img src="../Images/FPSZombie_zombieGameMultiplayer4.png" alt="Zombie Game Multiplayer setup 4" />
-                <img src="../Images/FPSZombie_zombieGameMultiplayer5.png" alt="Zombie Game Multiplayer setup 5" />
+              <div class="project-media project-media--stack">
+                <div class="project-media--grid">
+                  <img src="../Images/FPSZombie_zombieGameMultiplayer1.png" alt="Zombie Game Multiplayer setup 1" />
+                  <img src="../Images/FPSZombie_zombieGameMultiplayer2.png" alt="Zombie Game Multiplayer setup 2" />
+                  <img src="../Images/FPSZombie_zombieGameMultiplayer3.png" alt="Zombie Game Multiplayer setup 3" />
+                  <img src="../Images/FPSZombie_zombieGameMultiplayer4.png" alt="Zombie Game Multiplayer setup 4" />
+                  <img src="../Images/FPSZombie_zombieGameMultiplayer5.png" alt="Zombie Game Multiplayer setup 5" />
+                </div>
+                <div class="project-media-video-ratio">
+                  <iframe src="https://www.youtube.com/embed/7ZKyOg2l_HA?si=2lIKgFzdTozmF16E" title="Zombie Game Multiplayer gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
               </div>
             </div>
 
@@ -193,7 +198,10 @@
                 <li><strong>Volume</strong> - Volume for both channels is handled through the <code>SoundMixerManager</code>. Music and sound effects are controlled independently, so adjusting one doesn't affect the other. A master volume slider can lower everything at once.</li>
               </ul>
               <p class="why-it-matters">Splitting sound effects and music into separate spawning systems and mixer channels is a standard production audio pattern. It gives designers and players independent control over each layer without them interfering with each other.</p>
-              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX and Music here ]</div> -->
+              <div class="project-media">
+                <img src="../Images/FPSZombie_music.png" alt="Music setup in Unity" />
+                <img src="../Images/FPSZombie_soundFXPrefab.png" alt="Sound FX setup in Unity" />
+              </div>
             </div>
 
             <div class="worked-on-item">
@@ -205,7 +213,9 @@
                 <li><strong><code>PlayRandomSoundFXClip</code></strong> - Takes an array of audio clips along with the same position, volume, and spatial blend parameters. Picks a random clip using the array length as the upper bound, then spawns and plays it the same way as the single-clip version.</li>
               </ul>
               <p class="why-it-matters">Routing all sound effect playback through a single manager makes it easy to add new sounds to any system without duplicating audio logic. The random clip variant adds natural variation to repeated sounds like footsteps or impacts.</p>
-              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Sound FX Manager here ]</div> -->
+              <div class="project-media project-media--third">
+                <img src="../Images/FPSZombie_soundFXManager.png" alt="Sound FX Manager setup in Unity" />
+              </div>
             </div>
 
             <div class="worked-on-item">
@@ -216,7 +226,9 @@
                 <li><strong><code>Set[Type]Volume</code></strong> - Each function targets a specific mixer group (SFX, Music, or Master) and applies volume using <code>Log10</code>. Unity's audio mixers use an exponential decibel scale, so the raw slider value is converted through <code>Log10</code> to produce a perceptually linear result for the player.</li>
               </ul>
               <p class="why-it-matters">Using <code>Log10</code> for volume conversion is a technical detail that matters a lot in practice - a linear slider without it would make the lower half of the range nearly silent and the upper half barely audible as a difference. Getting this right means the volume slider actually feels proportional to the player.</p>
-              <!-- <div class="gallery-placeholder">[ Add screenshot or video clip for Sound Mixer Manager here ]</div> -->
+              <div class="project-media project-media--third">
+                <img src="../Images/FPSZombie_soundMixerManager.png" alt="Sound Mixer Manager setup in Unity" />
+              </div>
             </div>
 
           </article>

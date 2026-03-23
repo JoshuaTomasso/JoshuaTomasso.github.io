@@ -921,7 +921,53 @@ pre {
 .project-media img { cursor: zoom-in; }
 .project-media img:hover,
 .project-media video:hover { opacity: 0.88; }
-.project-media--third { max-width: calc(33.333% - 6px); }
+.project-media--third { max-width: calc(33.333% - 6px); margin-left: auto; margin-right: auto; }
+.project-media--grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  flex: none;
+  width: 100%;
+}
+.project-media--grid img,
+.project-media--grid video {
+  width: 100%;
+  flex: none;
+}
+/* Stack modifier: vertical column inside the right-side media area */
+.project-media--stack {
+  flex-direction: column;
+  gap: 12px;
+}
+.project-media--stack .project-media--grid {
+  width: 100%;
+  flex: none;
+}
+.project-media--stack .project-media-video-ratio {
+  width: 100%;
+  flex: none;
+}
+.project-media-video {
+  margin-top: 12px;
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.project-media-video-ratio {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.project-media-video-ratio iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 .project-media--solo-video { justify-content: center; }
 .project-media--solo-video video { flex: 0 0 50%; width: 50%; }
 
@@ -1066,6 +1112,46 @@ ol.detail-list li::before {
 }
 .worked-on-item:first-child { padding-top: 0; }
 .worked-on-item:last-child { border-bottom: none; padding-bottom: 0; }
+/* Side-by-side layout when media is present */
+.worked-on-item:has(.project-media) {
+  display: grid;
+  grid-template-columns: 1fr 40%;
+  column-gap: 28px;
+  align-items: start;
+}
+.worked-on-item:has(.project-media) > *:not(.project-media) { grid-column: 1; }
+.worked-on-item:has(.project-media) > .project-media {
+  grid-column: 2;
+  grid-row: 1 / span 10;
+  margin-top: 0;
+  max-width: none;
+  align-self: start;
+  position: sticky;
+  top: 20px;
+}
+/* Reset modifier constraints inside the grid */
+.worked-on-item:has(.project-media) > .project-media.project-media--third {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+.worked-on-item:has(.project-media) > .project-media.project-media--solo-video {
+  justify-content: flex-start;
+}
+.worked-on-item:has(.project-media) > .project-media.project-media--solo-video video {
+  flex: 1 1 0;
+  width: 0;
+}
+@media (max-width: 680px) {
+  .worked-on-item:has(.project-media) {
+    grid-template-columns: 1fr;
+  }
+  .worked-on-item:has(.project-media) > .project-media {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+  }
+}
 .worked-on-item h3 {
   margin-top: 0;
   margin-bottom: 12px;
