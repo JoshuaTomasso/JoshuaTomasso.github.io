@@ -236,7 +236,7 @@ pre {
 .content-block p,
 .content-block li {
   color: var(--muted);
-  font-size: 0.93rem;
+  font-size: 0.85rem;
   line-height: 1.85;
 }
 
@@ -872,9 +872,9 @@ pre {
 .project-body { padding: 0; background: transparent; border: 0; box-shadow: none; backdrop-filter: none; }
 .project-body { display: grid; gap: 20px; }
 .project-body-full { display: grid; gap: 22px; margin-top: 24px; }
-.project-hero h1 { font-size: clamp(2rem, 4vw, 2.8rem); }
+.project-hero h1 { font-size: clamp(1.75rem, 3.5vw, 2.4rem); }
 .page-hero-copy {
-  font-size: 1rem !important;
+  font-size: 0.88rem !important;
   line-height: 1.75 !important;
   color: var(--muted);
   margin: 14px 0 20px;
@@ -887,8 +887,8 @@ pre {
   padding: 32px;
   box-shadow: var(--shadow);
 }
-.content-block h2 { margin-top: 0; margin-bottom: 16px; font-size: 1.5rem; letter-spacing: -0.01em; }
-.content-block h3 { margin-top: 32px; margin-bottom: 12px; font-size: 1.05rem; color: var(--text); }
+.content-block h2 { margin-top: 0; margin-bottom: 16px; font-size: 1.3rem; letter-spacing: -0.01em; }
+.content-block h3 { margin-top: 32px; margin-bottom: 12px; font-size: 0.95rem; color: var(--text); }
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
