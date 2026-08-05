@@ -1,0 +1,16 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node dependencies (if using build tools like Vite, Webpack, or Eleventy)
+node_modules/
+dist/
+
+# Jekyll specific (if using GitHub Pages' native Jekyll compilation)
+.jekyll-cache/
+.jekyll-metadata
+_site/
+
+# Local environment configuration variables
+.env
+.env.local
