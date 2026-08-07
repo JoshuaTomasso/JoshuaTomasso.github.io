@@ -784,6 +784,9 @@ pre {
   border: 0;
   aspect-ratio: unset;
 }
+.plc-image img {
+  pointer-events: auto;
+}
 .project-list-card-v2:hover .plc-image img {
   transform: scale(1.04);
 }

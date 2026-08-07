@@ -149,6 +149,8 @@ document.querySelectorAll('.hover-gif').forEach(img => {
   const stillSrc = img.dataset.still;
   const gifSrc = img.dataset.gif;
 
+  if (!stillSrc || !gifSrc) return;
+
   img.addEventListener('mouseenter', () => {
     img.src = gifSrc;
   });
