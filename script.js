@@ -144,3 +144,16 @@ document.querySelectorAll('.project-card a[href]').forEach((link) => {
     });
   }
 });
+
+document.querySelectorAll('.hover-gif').forEach(img => {
+  const stillSrc = img.dataset.still;
+  const gifSrc = img.dataset.gif;
+
+  img.addEventListener('mouseenter', () => {
+    img.src = gifSrc;
+  });
+
+  img.addEventListener('mouseleave', () => {
+    img.src = stillSrc;
+  });
+});
