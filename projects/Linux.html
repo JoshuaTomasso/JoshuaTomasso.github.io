@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hidden Fangs Unreal project breakdown by Joshua Tomasso." />
+    <title>Hidden Fangs | Joshua Tomasso</title>
+    <script>if (window.self !== window.top) document.documentElement.classList.add('in-iframe');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+    <div class="site-shell inner-page-shell">
+        <header class="topbar topbar-inner">
+            <a class="brand" href="../index.html">Joshua Tomasso</a>
+            <nav class="nav nav-static" aria-label="Project navigation">
+                <a href="index.html">All Projects</a>
+                <a href="../index.html">Home</a>
+            </nav>
+        </header>
+
+        <main class="project-page">
+            <a class="back-link" href="index.html">← Back to Projects</a>
+            <section class="project-hero">
+                <div>
+                    <p class="eyebrow">Linux - Ubuntu</p>
+                    <h1>Virtual Machine Setup / Server Running / Unreal Engine 5 / JetBrains Rider</h1>
+                    <p class="page-hero-copy">Setup a virtual machine with Ubuntu, run a server, and developing a game in Unreal Engine 5 using JetBrains Rider.</p>
+                    <div class="tag-row">
+                        <span>Linux - Ubuntu</span><span>Unreal</span><span>C++</span><span>Blueprints</span>
+                    </div>
+                </div>
+                <div class="project-hero-image">
+                    <img src="../Images/Ubuntu_desktop.png" alt="Linux - Ubuntu Cover Image" />
+                </div>
+            </section>
+
+            <section class="project-layout">
+                <aside class="project-sidebar">
+                    <div class="sidebar-card">
+                        <span>Role</span>
+                        <strong>Linux - Ubuntu Experience</strong>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Operating System</span>
+                        <strong>Linux - Ubuntu</strong>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Tools</span>
+                        <strong>Linux, Ubuntu, Unreal Engine 5, JetBrains Rider</strong>
+                    </div>
+                </aside>
+
+                <div class="project-body">
+                    <article class="content-block">
+                        <h2>Overview</h2>
+                        <p>This project involved setting up a virtual machine with Ubuntu, running a server, and developing a game in Unreal Engine 5 using JetBrains Rider.</p>
+                        <ul class="detail-list">
+                            <li>Dual Boot Setup with Windows and Ubuntu</li>
+                            <li>Ran a Palworld Server for the Terminal</li>
+                            <li>Build and Played a personal project in Unreal Engine 5</li>
+                            <li>Ran A Windows Virtual Machine with Ubuntu</li>
+                            <li>Linked a file to the Virtual Machine between the Linux OS and the Windows OS</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <div class="project-body-full">
+                <article class="content-block">
+                    <h2>What I Worked On</h2>
+
+                    <div class="worked-on-item">
+                        <h3>Setup and Ran a Palworld Server</h3>
+                        <p>Used the terminal to set up and run a Palworld server.</p>
+                        <ul class="detail-list">
+                            <li><strong>DOCKER</strong> —  Using Docker to containerize the Palworld server, making it easy to deploy and manage across different environments.</li>
+                            <li><strong>Testing</strong> — I was able to launch the server and test its functionality in Palworld.</li>
+                        </ul>
+                        <p class="why-it-matters">Working through this taught me how server processes actually get deployed and managed on Linux, and gave me hands-on experience containerizing an application so it can run consistently regardless of environment.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Build and Ran A Personal Project in Unreal Engine 5</h3>
+                        <p>Was able to bring a personal project (Hidden Fangs) to life in Unreal Engine 5 running on a Linux operating system.</p>
+                        <p class="why-it-matters">Getting Unreal Engine 5 fully operational on Ubuntu, including compiling and running the project through JetBrains Rider, showed me how game development workflows differ outside of Windows and gave me confidence troubleshooting engine and toolchain issues on Linux.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Windows Virtual Machine with Ubuntu</h3>
+                        <p>I used LXD (Canonical's system container and VM manager) to create and run the virtual machine</p>
+                        <ul class="detail-list">
+                            <li><strong>LXD</strong> — Used LXD to provision and manage a Windows virtual machine directly from the Ubuntu host, allowing me to run Windows-only tools alongside my native Linux environment.</li>
+                        </ul>
+                        <p class="why-it-matters">This gave me practical experience with virtualization on Linux, letting me switch between operating systems without dual-booting or needing a second machine.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Linked a file between the Windows VM and the Linux host</h3>
+                        <p>I linked a file between the Windows VM and the Linux host. This is so I can share data between the two systems.</p>
+                        <ul class="detail-list">
+                            <li><strong>Shared Folder</strong> — Configured a shared directory between the Ubuntu host and the Windows VM so files could be moved between the two environments without needing external transfer tools.</li>
+                        </ul>
+                        <p class="why-it-matters">This solved a real workflow problem: being able to pass files back and forth between the two OS environments made development and testing much faster and less disruptive.</p>
+                    </div>
+
+                </article>
+            </div>
+        </main>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>
