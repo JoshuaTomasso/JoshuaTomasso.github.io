@@ -73,6 +73,20 @@
                     <h2>What I Worked On</h2>
 
                     <div class="worked-on-item">
+                        <h3>Connected an Unreal project between a VM and a Linux Build.</h3>
+                        <p>Bridged the Windows VM and Linux host so I could run and test multiplayer builds across both machines, with GPU-accelerated rendering and direct networking between them.</p>
+                        <ul class="detail-list">
+                            <li><strong>Engineered Heterogeneous Testing Environments</strong> — Successfully configured and deployed a cross-platform multiplayer testing environment by bridging a native Linux host development environment with an isolated Windows 11 guest virtual machine running inside an optimized LXD virtualization layer.</li>
+                            <li><strong>Optimized Virtualized Hardware & Display Stacks</strong> — Resolved strict Unreal Engine 5 hardware DirectX 11/Shader Model 5.0 rendering constraints in virtualized spaces by implementing advanced Windows Group Policies (gpedit.msc) to force host-side GPU-accelerated graphics wrappers over standard remote sessions.</li>
+                            <li><strong>Architected Cross-Subnet Multiplayer Network Topologies</strong> — Facilitated real-time client-server matchmaking and testing loops across isolated network subnets by bypassing local LAN broadcast limitations and establishing low-latency, direct IP address connection routes over virtual host-to-guest network adapters.</li>
+                        </ul>
+                        <p class="why-it-matters">This solved a real workflow problem: being able to pass files back and forth between the two OS environments made development and testing much faster and less disruptive.</p>
+                        <div class="project-media">
+                            <img src="../Images/LinuxWindowsConnection.png" alt="Game Build Working Cross Host and VM" />
+                        </div>
+                    </div>
+
+                    <div class="worked-on-item">
                         <h3>Setup and Ran a Palworld Server</h3>
                         <p>Used the terminal to set up and run a Palworld server.</p>
                         <ul class="detail-list">
