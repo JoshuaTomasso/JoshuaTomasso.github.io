@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hidden Fangs Unreal project breakdown by Joshua Tomasso." />
+    <title>Hidden Fangs | Joshua Tomasso</title>
+    <script>if (window.self !== window.top) document.documentElement.classList.add('in-iframe');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+    <div class="site-shell inner-page-shell">
+        <header class="topbar topbar-inner">
+            <a class="brand" href="../index.html">Joshua Tomasso</a>
+            <nav class="nav nav-static" aria-label="Project navigation">
+                <a href="index.html">All Projects</a>
+                <a href="../index.html">Home</a>
+            </nav>
+        </header>
+
+        <main class="project-page">
+            <a class="back-link" href="index.html">← Back to Projects</a>
+            <section class="project-hero">
+                <div>
+                    <p class="eyebrow">Vulkan Renderer</p>
+                    <h1>Vulkan / C++ / Graphics Programming</h1>
+                    <p class="page-hero-copy">A C++ and Vulkan renderer built across seven labs, going from a single triangle to physically based rendering.</p>
+                    <div class="tag-row">
+                        <span>Vulkan</span><span>C++</span><span>HLSL</span><span>Graphics Programming</span>
+                    </div>
+                </div>
+                <div class="project-hero-image">
+                    <img src="../Images/3DCC.png" alt="Vulkan Renderer Cover Image" />
+                </div>
+            </section>
+
+            <section class="project-layout">
+                <aside class="project-sidebar">
+                    <div class="sidebar-card">
+                        <span>Role</span>
+                        <strong>Graphics Programmer</strong>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Engine / Stack</span>
+                        <strong>C++, Vulkan, HLSL, Gateware, CMake</strong>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3dcc-RainbowStar" target="_blank" rel="noreferrer">GitHub Rainbow Star</a></div>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3DCC-RainbowPlus" target="_blank" rel="noreferrer">GitHub Rainbow Plus</a></div>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3DCC-SquareGrid" target="_blank" rel="noreferrer">GitHub Square Grid</a></div>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3DCC-FullSailSign" target="_blank" rel="noreferrer">GitHub Full Sail Sign</a></div>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3DCC-JadeCat" target="_blank" rel="noreferrer">GitHub Jade Cat</a></div>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3DCC-TexturedFish-Cat" target="_blank" rel="noreferrer">GitHub Textured Fish & Cat</a></div>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/3DCC-TexturedBottle" target="_blank" rel="noreferrer">GitHub Textured Bottle</a></div>
+                    </div>
+                </aside>
+
+                <div class="project-body">
+                    <article class="content-block">
+                        <h2>Overview</h2>
+                        <p>This project is a Vulkan renderer I built from scratch over seven labs. It starts with drawing points and lines and ends with a PBR renderer that loads glTF models, textures, and environment lighting. Each lab built directly on the last, so the final project is one renderer that grew step by step.</p>
+                        <ul class="detail-list">
+                            <li>Custom vertex formats, shaders, and multiple graphics pipelines</li>
+                            <li>Uniform buffers, storage buffers, and descriptor sets for sending data to the GPU</li>
+                            <li>Free-look 3D camera with keyboard, mouse, and controller support</li>
+                            <li>OBJ and glTF model loading, with instancing and per-mesh materials</li>
+                            <li>Bindless texture arrays, normal maps, and emissive maps</li>
+                            <li>PBR shading with image-based lighting (IBL)</li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+
+            <div class="project-body-full">
+                <article class="content-block">
+                    <h2>What I Worked On</h2>
+
+                    <div class="worked-on-item">
+                        <h3>Pipelines, Shaders & Vertex Data (Lab 1)</h3>
+                        <p>I started by drawing 10,000 random stars as points, then added a second pipeline to draw a connected-line star on top.</p>
+                        <ul class="detail-list">
+                            <li><strong>Pipeline Topology</strong> — The pipeline decides how vertices are drawn (points, lines, or triangles), so each shape type needs its own pipeline.</li>
+                            <li><strong>Custom Vertex Type</strong> — I added RGBA color to the vertex, then wrote new vertex and fragment shaders to match.</li>
+                            <li><strong>Rule of Three</strong> — The C++ vertex struct, the Vulkan attribute descriptions, and the shader input all have to agree, or nothing draws correctly.</li>
+                        </ul>
+                        <p class="why-it-matters">Almost every “nothing is drawing” bug I hit came from one of those three being out of sync.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Sending Data to the GPU (Labs 2–3)</h3>
+                        <p>I rotated a “+” shape with push constants, then moved to uniform buffers and descriptor sets once I needed more than 128 bytes.</p>
+                        <ul class="detail-list">
+                            <li><strong>Push Constants vs. Uniform Buffers</strong> — Push constants are quick but limited to about 128 bytes. Uniform buffers hold much more but need a descriptor set layout, pool, and set.</li>
+                            <li><strong>Per-Frame Buffers</strong> — I made one uniform buffer and one descriptor set per in-flight frame, so the CPU never overwrites data the GPU is still reading.</li>
+                            <li><strong>Indexed Geometry & Instancing</strong> — Index buffers let triangles reuse vertices. I drew all six walls of a room with one instanced draw call, using <code>SV_InstanceID</code> to pick each wall’s matrix.</li>
+                        </ul>
+                        <p class="why-it-matters">Vulkan doesn’t synchronize CPU and GPU data for you, so per-frame buffers are what prevent flicker.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>3D Math & Camera (Lab 3)</h3>
+                        <p>I built a procedural 3D grid room, then added world, view, and projection matrices and a free-look camera.</p>
+                        <ul class="detail-list">
+                            <li><strong>Vulkan Projection</strong> — Vulkan’s NDC has Y pointing down, so I had to either use a Vulkan-style projection or turn off the shader compiler’s Y-flip, not both.</li>
+                            <li><strong>Matrix Layout</strong> — HLSL reads matrices as column-major while most math libraries use row-major, which breaks the math unless you account for it.</li>
+                            <li><strong>FPS Camera</strong> — Movement is relative to where the camera faces. Strafing and forward motion use local translation, and yaw uses global rotation to stay FPS-style.</li>
+                        </ul>
+                        <p class="why-it-matters">Keeping the camera as a world matrix and inverting it for the view matrix made the movement code far simpler.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Model Loading & Lighting (Lab 4)</h3>
+                        <p>I loaded the FSLogo OBJ model, then added a directional light with ambient and specular.</p>
+                        <ul class="detail-list">
+                            <li><strong>Model Data</strong> — I converted the OBJ and its materials into a header, then fed the vertex and index data through the rule of three.</li>
+                            <li><strong>Per-Mesh Instance Data</strong> — A storage buffer (<code>StructuredBuffer</code> in HLSL) holds a world matrix and material for each mesh, so the draw list doesn’t need hard-coded sizes.</li>
+                            <li><strong>Lighting</strong> — Lambert diffuse, an ambient term, and specular that depends on the camera position.</li>
+                            <li><strong>Debugging with RenderDoc</strong> — I used it to confirm geometry was loaded and to step through individual pixels.</li>
+                        </ul>
+                        <p class="why-it-matters">Interpolated normals need re-normalizing in the fragment shader, and the instance index needs <code>nointerpolation</code> so it doesn’t get blended across a triangle.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>glTF Loading (Lab 5)</h3>
+                        <p>I upgraded from OBJ to glTF using TinyGLTF, then rendered a high-poly model with the lighting from Lab 4.</p>
+                        <ul class="detail-list">
+                            <li><strong>Unified Buffer</strong> — glTF stores vertices and indices in one block of memory, so I used a single Vulkan buffer flagged as both vertex and index.</li>
+                            <li><strong>Offsets & Strides</strong> — Attributes are stored separately (non-interleaved), so I read each offset, stride, and index format from the model data instead of hard-coding them.</li>
+                            <li><strong>Blender Exporter</strong> — I used a custom exporter to make every model’s vertex format consistent, so I didn’t need branching load code.</li>
+                        </ul>
+                        <p class="why-it-matters">Reading everything from the model data instead of hard-coding it is what let new models load without code changes.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Textures & Bindless Resources (Lab 6)</h3>
+                        <p>I loaded the model’s textures onto the GPU and used them in the lighting.</p>
+                        <ul class="detail-list">
+                            <li><strong>Separate Texture Descriptor Set</strong> — Textures never change between frames, so they got their own descriptor set instead of sharing the per-frame one.</li>
+                            <li><strong>Bindless Texture Array</strong> — I enabled the descriptor indexing extension so all textures live in one array that shaders can access freely.</li>
+                            <li><strong>Roughness & Ambient Occlusion</strong> — Roughness dampens specular highlights and occlusion reduces ambient light in crevices, which added visible depth.</li>
+                        </ul>
+                        <p class="why-it-matters">Bindless textures took more setup, but adding a texture later became as simple as adding it to an array.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Advanced Rendering: Normal Maps & PBR (Lab 7)</h3>
+                        <p>In the final lab I fixed coordinate systems, improved depth precision, and added normal maps, emissive maps, and PBR with IBL.</p>
+                        <ul class="detail-list">
+                            <li><strong>Handedness</strong> — glTF is right-handed and my renderer was left-handed, so I flipped the model with a -Z world matrix and switched the front-face winding.</li>
+                            <li><strong>Reversed-Z</strong> — Clearing depth to 0 and using a GREATER compare gives far better precision at extreme near and far planes.</li>
+                            <li><strong>Normal & Emissive Maps</strong> — A TBN matrix converts each pixel’s normal from the map into world space, and I flipped the green channel because glTF uses OpenGL-style normal maps. The emissive map just adds glow on top.</li>
+                            <li><strong>PBR + IBL</strong> — I loaded a GGX lookup table and diffuse and specular cube maps, then switched to a PBR fragment shader.</li>
+                        </ul>
+                        <p class="why-it-matters">Depth, handedness, and normal map conventions all caused bugs that looked like “lighting is wrong,” so I learned to check the coordinate conventions first.</p>
+                    </div>
+
+                </article>
+
+                <article class="content-block">
+                    <h2>Notes</h2>
+
+                    <h3>Rendering Overview</h3>
+                    <p>Every frame, the CPU updates the camera, lights, and per-instance data. Those go into per-frame uniform and storage buffers, which descriptor sets expose to the shaders. The vertex shader transforms geometry into world space, and the fragment shader applies materials, textures, and lighting.</p>
+                    <ul class="detail-list">
+                        <li>Static resources (textures, environment maps) are separate from per-frame resources (camera, instance data)</li>
+                        <li>Validation layer output and RenderDoc captures were my main debugging tools</li>
+                        <li>Buffer offsets, strides, and counts come from the model data, never hard-coded</li>
+                    </ul>
+
+                    <h3>Lessons Learned</h3>
+                    <ul class="detail-list">
+                        <li>The rule of three (C++ data, Vulkan descriptions, shader input) is the first thing to check when nothing draws</li>
+                        <li>Vulkan doesn’t synchronize frame data for you, so use one buffer per in-flight frame</li>
+                        <li>Coordinate conventions (handedness, NDC Y direction, matrix order, normal map style) cause bugs that look like lighting problems</li>
+                        <li>RenderDoc and the validation layers find problems much faster than guessing</li>
+                    </ul>
+
+                    <h3>Controls</h3>
+                    <table class="controls-table">
+                        <thead>
+                            <tr><th>Action</th><th>Input</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Move Forward / Back</td><td>W / S</td></tr>
+                            <tr><td>Strafe Left / Right</td><td>A / D</td></tr>
+                            <tr><td>Move Up / Down</td><td>Space / Left Shift</td></tr>
+                            <tr><td>Look Around</td><td>Mouse [or Right Stick]</td></tr>
+                        </tbody>
+                    </table>
+
+                </article>
+            </div>
+        </main>
+    </div>
+    <script src="../script.js"></script>
+</body>
+</html>
