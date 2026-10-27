@@ -120,7 +120,7 @@
                     <h2>Notes</h2>
 
                     <h3>Gameplay Overview</h3>
-                    <p>Hidden Fangs is a social deduction game for [N] players [confirm player count/range]. Each match alternates between a Day Phase — where surviving players discuss and vote to eliminate a suspected werewolf — and a Night Phase, where players with special roles secretly act. Villagers win by eliminating all werewolves; werewolves win by reducing villagers to a number where they can no longer be outvoted.</p>
+                    <p>Hidden Fangs is a social deduction game for 4-16 players. Each match alternates between a Day Phase — where surviving players discuss and vote to eliminate a suspected werewolf — and a Night Phase, where players with special roles secretly act. Villagers win by eliminating all werewolves; werewolves win by reducing villagers to a number where they can no longer be outvoted.</p>
 
                     <h3>Networking Architecture</h3>
                     <p>The game is built entirely in Blueprints on top of Unreal's replication system, with no C++ layer. Game-wide state (current phase, timers) lives on <code>BP_GameState</code>, per-player state (role, submitted night action) lives on <code>BP_PlayerState</code>, and server-only logic (role assignment, action resolution) lives on <code>BP_GameMode</code>.</p>
@@ -145,9 +145,7 @@
                         <tbody>
                             <tr><td>Move</td><td>W / A / S / D</td></tr>
                             <tr><td>Sprint</td><td>Left Shift</td></tr>
-                            <tr><td>Open Vote Menu</td><td>Not Yet Set</td></tr>
                             <tr><td>Use Night Ability</td><td>Left Mouse Click in Widget</td></tr>
-                            <tr><td>Chat</td><td>Not Yet Set</td></tr>
                         </tbody>
                     </table>
 
