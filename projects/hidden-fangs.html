@@ -29,7 +29,7 @@
                     <h1>Unreal Engine 5 C++ Multiplayer Systems</h1>
                     <p class="page-hero-copy">An Unreal Project where I designed and implemented the full game front end and backend.</p>
                     <div class="tag-row">
-                        <span>Unreal</span><span>C++</span><span>Blueprints</span>
+                        <span>Unreal Engine 5</span><span>C++</span><span>Multiplayer Replication</span><span>Solo Project</span>
                     </div>
                 </div>
                 <div class="project-hero-image">
@@ -41,11 +41,11 @@
                 <aside class="project-sidebar">
                     <div class="sidebar-card">
                         <span>Role</span>
-                        <strong>Frontend/Backend Programmer</strong>
+                        <strong>Solo Developer: Gameplay / Network Programmer</strong>
                     </div>
                     <div class="sidebar-card">
                         <span>Engine / Stack</span>
-                        <strong>Unreal, C++, Blueprints</strong>
+                        <strong>Unreal Engine 5, C++</strong>
                     </div>
                     <div class="sidebar-card">
                         <span>Links</span>
@@ -60,7 +60,7 @@
                 <div class="project-body">
                     <article class="content-block">
                         <h2>Overview</h2>
-                        <p>Hidden Fangs is a multiplayer social deduction game inspired by Werewolf, built entirely in Unreal Engine 5 Blueprints. Players spawn in a village and are randomly assigned hidden roles at the start of each match. Gameplay alternates between a Day Phase, where players discuss and vote to eliminate a suspected werewolf, and a Night Phase, where players with special roles use their unique abilities. The objective is for the villagers to identify and eliminate all werewolves before the werewolves eliminate enough villagers to take control of the village.</p>
+                        <p>Hidden Fangs is a multiplayer social deduction game inspired by Werewolf. Players spawn in a village and are randomly assigned hidden roles at the start of each match. Gameplay alternates between a Day Phase, where players discuss and vote to eliminate a suspected werewolf, and a Night Phase, where players with special roles use their unique abilities. The objective is for the villagers to identify and eliminate all werewolves before the werewolves eliminate enough villagers to take control of the village.</p>
                         <p>Social deduction lives or dies on communication, so the project includes both in-game text chat and voice chat, giving players the tools to bluff, accuse, and coordinate in real time.</p>
                         <ul class="detail-list">
                             <li>Server-authoritative night action submission and resolution</li>
@@ -123,7 +123,7 @@
                     <p>Hidden Fangs is a social deduction game for 4-16 players. Each match alternates between a Day Phase — where surviving players discuss and vote to eliminate a suspected werewolf — and a Night Phase, where players with special roles secretly act. Villagers win by eliminating all werewolves; werewolves win by reducing villagers to a number where they can no longer be outvoted.</p>
 
                     <h3>Networking Architecture</h3>
-                    <p>The game is built entirely in Blueprints on top of Unreal's replication system, with no C++ layer. Game-wide state (current phase, timers) lives on <code>BP_GameState</code>, per-player state (role, submitted night action) lives on <code>BP_PlayerState</code>, and server-only logic (role assignment, action resolution) lives on <code>BP_GameMode</code>.</p>
+                    <p> The game uses Unreal's replication system to manage networked gameplay. Game-wide state (current phase, timers) lives on <code>BP_GameState</code>, per-player state (role, submitted night action) lives on <code>BP_PlayerState</code>, and server-only logic (role assignment, action resolution) lives on <code>BP_GameMode</code>.</p>
                     <ul class="detail-list">
                         <li>Widget creation is gated behind <code>Is Local Controller</code> checks to prevent UI from spawning on the wrong client</li>
                         <li>Multiplayer testing is done with up to 4 simultaneous PIE (Play-In-Editor) instances</li>
