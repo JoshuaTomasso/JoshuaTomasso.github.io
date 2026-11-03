@@ -26,10 +26,10 @@
             <section class="project-hero">
                 <div>
                     <p class="eyebrow">Lizard Wizard</p>
-                    <h1>Unity 3D Audio Systems / Transition Boss Music</h1>
-                    <p class="page-hero-copy">A Unity C# project where I designed and implemented the game's sound system, connecting audio behavior to gameplay events to strengthen player feedback and overall game feel.</p>
+                    <h1>Unity 3D Audio Systems</h1>
+                    <p class="page-hero-copy">A five-person Unity roguelite. I designed and built the audio system and tied it to gameplay events for player feedback and game feel.</p>
                     <div class="tag-row">
-                        <span>Unity</span><span>C#</span><span>Audio Systems</span><span>Gameplay</span>
+                        <span>Unity</span><span>C#</span><span>Audio Systems</span><span>Team Project</span>
                     </div>
                 </div>
                 <div class="project-hero-image">
@@ -48,8 +48,12 @@
                         <strong>Audio / Gameplay Systems Programmer</strong>
                     </div>
                     <div class="sidebar-card">
+                        <span>Team Size</span>
+                        <strong>5 people</strong>
+                    </div>
+                    <div class="sidebar-card">
                         <span>Engine / Stack</span>
-                        <strong>Unity, C#</strong>
+                        <strong>Unity, C#, Git, Trello</strong>
                     </div>
                     <div class="sidebar-card">
                         <span>Links</span>
@@ -60,15 +64,12 @@
                 <div class="project-body">
                     <article class="content-block">
                         <h2>Overview</h2>
-                        <p>Lizard Wizard is a top-down roguelite where the player explores a map to find and defeat three mini-bosses, then returns to spawn to activate the exit portal. My primary contribution was the sound system — building the audio architecture in C#, wiring sound triggers to gameplay events, and ensuring audio responses stayed clean and maintainable as the project grew.</p>
-                        <p>Audio work is often undervalued, but it directly impacts player feedback, game readability, and the overall feel of moment-to-moment play.</p>
+                        <p>Lizard Wizard is a top-down roguelite built by a five-person student team. I owned the audio architecture: a singleton SoundManager with an enum-driven sound table, trigger-based boss music, spatial enemy audio, and a listener that follows the player. I also fixed audio bugs that teammates reported through our Trello board.</p>
                         <ul class="detail-list">
-                            <li>Audio system design and implementation in Unity using C#</li>
-                            <li>Gameplay event-driven sound triggering</li>
-                            <li>Boss music transition system tied to trigger zones</li>
-                            <li>Enemy idle audio by monster type</li>
-                            <li>Player feedback and game feel through audio</li>
-                            <li>Sound organization and maintainability</li>
+                            <li>23 sound types in one enum-driven SoundManager, callable from any script in one line</li>
+                            <li>Boss music that pauses and resumes instead of restarting</li>
+                            <li>Per-enemy spatial idle audio for three monster types</li>
+                            <li>Audio bugs fixed from teammate reports on Trello</li>
                         </ul>
                     </article>
                 </div>
@@ -80,11 +81,11 @@
 
                     <div class="worked-on-item">
                         <h3>Sound Manager</h3>
-                        <p>I built a singleton audio manager that centralizes all sound and music playback for the game, using Unity's AudioSource components to manage different types of audio across SFX, music, and menu channels.</p>
+                        <p>I built a singleton SoundManager that handles all SFX, music and menu audio through three AudioSource channels.</p>
                         <ul class="detail-list">
-                            <li><strong>Enum + SoundList</strong> — An enum categorizes 23 different sound effects and music tracks, each mapped to an index in the <code>soundList</code> array for easy lookup. The <code>SoundList</code> struct holds multiple audio clips per sound type, enabling random selection during playback. Adding more entries to the enum is supported, keeping the system expandable.</li>
+                            <li><strong>Enum + SoundList</strong> — An enum with 23 entries covers every sound effect and music track. Each entry maps to a SoundList struct holding one or more clips, so repeated sounds play a random variation. Adding a sound means adding an enum entry.</li>
                             <li><strong>Sound Playback</strong> — <code>PlaySoundClip(SoundType, volume)</code> plays a random SFX clip through the SFX source. <code>PlayEnemySoundClip(SoundType, source, volume)</code> routes audio through a specific AudioSource for enemy-specific sounds. Dedicated methods handle menu hover and respawn effects.</li>
-                            <li><strong>Music Management</strong> — <code>PlayBackgroundMusic</code> and <code>PlayBossMusic</code> are coroutines that queue music with a short delay before playing. <code>PlayMenuMusic</code> plays menu music on loop. Each channel has its own stop, pause, and unpause methods so they operate independently.</li>
+                            <li><strong>Music Management</strong> — <code>PlayBackgroundMusic</code> and <code>PlayBossMusic</code> are coroutines that start music after a 0.25s delay. <code>PlayMenuMusic</code> plays menu music on loop. Each channel has its own stop, pause, and unpause methods so they operate independently.</li>
                             <li><strong>Editor Support</strong> — An <code>OnEnable()</code> hook automatically resizes the <code>soundList</code> array in the editor and names each entry to match the SoundType enum, making inspector setup faster and less error-prone.</li>
                         </ul>
                         <p class="why-it-matters">Centralizing all audio through a singleton manager means any script in the project can trigger a sound with a single function call — no AudioSource setup required at the call site. The enum-driven structure also makes it easy to add new sounds without restructuring existing code.</p>
@@ -110,7 +111,6 @@
                         <h3>Audio Listener Positioning</h3>
                         <p>I set up the audio listener to follow the player through the level using a dedicated empty object on the player prefab and a lightweight tracking script.</p>
                         <ul class="detail-list">
-                            <li>The audio listener is attached to an empty that also carries the <code>AudioPositionChange</code> script and a <code>FaceCamera</code> script.</li>
                             <li><strong>Start</strong> — If no head position reference is assigned, the script finds the tagged <code>HeadPos</code> object in the scene automatically.</li>
                             <li><strong>Update</strong> — Every frame, the listener's transform is set to match the <code>HeadPos</code> object's world position, keeping it locked to the player's location.</li>
                         </ul>
@@ -123,7 +123,7 @@
 
                     <div class="worked-on-item">
                         <h3>Enemy Idle Audio</h3>
-                        <p>I implemented per-type idle sound behavior on enemy prefabs so each enemy variety plays its own ambient audio on a repeating timer.</p>
+                        <p>I gave each enemy type its own idle sound on a repeating timer.</p>
                         <ul class="detail-list">
                             <li>A <code>MonsterType</code> enum (EYE, WOLF, YETI) is set directly on each enemy prefab in the inspector, along with an <code>idleSoundTimer</code> float.</li>
                             <li><strong>Update</strong> — If the enemy isn't currently making noise, the <code>IdleNoise</code> coroutine is started.</li>
@@ -137,47 +137,37 @@
                         </div>
                     </div>
 
+                    <div class="worked-on-item">
+                        <h3>Team Workflow</h3>
+                        <p>I worked in a five-person team using Git and Trello, with my own feature branch merged regularly into a shared Dev branch.</p>
+                        <ul class="detail-list">
+                            <li><strong>Sprint Planning</strong> — I planned the audio work as a Wednesday-to-Sunday sprint of Trello cards with hour estimates and checklists, covering boss music, 3D audio fixes, enemy sounds, win/lose/respawn/checkpoint audio, and replacing placeholder assets with final versions.</li>
+                            <li><strong>Bug Reports</strong> — Teammates filed audio bugs on the board, such as music overlapping in the boss fight and no sound on item pickup. I fixed them and moved them to "Waiting Confirmation" so the reporter could verify.</li>
+                        </ul>
+                        <p class="why-it-matters">Small, frequent commits and a board of checklisted tasks kept audio changes easy to review and easy to revert when a merge broke something.</p>
+                        <div class="project-media">
+                            <img src="../Images/LizardWizard_gitLog_Alpha.png" alt="Git commit history showing frequent merges between Dev and a feature branch" />
+                            <img src="../Images/LizardWizard_trelloSprint_Alpha.png" alt="Trello sprint board for audio tasks" />
+                            <img src="../Images/LizardWizard_gitLog_Beta.png" alt="Git commit history showing frequent merges between Dev and a feature branch" />
+                            <img src="../Images/LizardWizard_trelloSprint_Beta.png" alt="Trello sprint board for audio tasks" />
+                            <img src="../Images/LizardWizard_gitLog_Golden.png" alt="Git commit history showing frequent merges between Dev and a feature branch" />
+                            <img src="../Images/LizardWizard_trelloSprint_Golden.png" alt="Trello sprint board for audio tasks" />
+
+                        </div>
+                    </div>
+
                 </article>
 
                 <article class="content-block">
                     <h2>Notes</h2>
 
                     <h3>Gameplay Overview</h3>
-                    <p>Lizard Wizard is a top-down roguelite. The player explores the map to find three mini-bosses, each located in their own scene accessible through portals on the main map. After defeating all three, the player returns to spawn and activates the exit portal to finish the run. The main menu offers four options: Play, Settings (to configure options before starting), Credits (showing the team and their roles), and Quit.</p>
+                    <p>Lizard Wizard is a top-down roguelite. The player explores the map to find three mini-bosses, each located in their own scene accessible through portals on the main map.</p>
 
-                    <h3>Audio Architecture</h3>
-                    <p>The sound system is built around a central <code>SoundManager</code> singleton that persists across scenes and owns three AudioSource channels: SFX, Music, and Menu. All sounds are defined in a <code>SoundType</code> enum with 23 entries, each mapped to a <code>SoundList</code> struct that holds one or more audio clips for that type. Any script in the project plays a sound by calling into the manager's static instance — no local AudioSource setup required at the call site.</p>
+                    <h3>What I’d improve next</h3>
                     <ul class="detail-list">
-                        <li>Clips are stored in serialized <code>SoundList</code> structs on the manager, auto-populated in the editor via <code>OnEnable()</code></li>
-                        <li>Sounds are triggered from gameplay scripts via <code>PlaySoundClip</code> or <code>PlayEnemySoundClip</code>, and from trigger zones for boss music</li>
-                        <li>Background and boss music run as coroutines with a 0.25s startup delay; each can be paused and resumed independently</li>
-                        <li>Enemy idle sounds play through per-enemy AudioSources with 3D spatial settings and logarithmic rolloff</li>
-                    </ul>
-
-                    <h3>Controls</h3>
-                    <table class="controls-table">
-                        <thead>
-                            <tr><th>Action</th><th>Input</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Move</td><td>W / A / S / D</td></tr>
-                            <tr><td>Sprint</td><td>Left Shift</td></tr>
-                            <tr><td>Fire Weapon</td><td>Left Mouse Click</td></tr>
-                            <tr><td>Pick Up Items</td><td>E</td></tr>
-                            <tr><td>Heal Potion</td><td>Q</td></tr>
-                            <tr><td>Mana Potion</td><td>R</td></tr>
-                            <tr><td>Settings Menu</td><td>Tab</td></tr>
-                            <tr><td>Pause Menu</td><td>Esc</td></tr>
-                        </tbody>
-                    </table>
-
-                    <h3>Future Improvements</h3>
-                    <ul class="detail-list">
-                        <li>Volume mixer UI with independent sliders for SFX, music, and master (similar to the FPSZombie <code>SoundMixerManager</code> with Log10 scaling)</li>
-                        <li>Additional sound variation per enemy type and attack to reduce repetition</li>
-                        <li>Dynamic or adaptive music layers that respond to player health or enemy count</li>
-                        <li>Sound effect pooling to avoid spawning and destroying AudioSource objects at runtime</li>
-                        <li>Scriptable object-based audio data to make clip assignment fully data-driven</li>
+                        <li>Move clip assignment from the enum-indexed <code>SoundList</code> array to ScriptableObject audio data, so designers can add or tune sounds without touching the manager.</li>
+                        <li>Add independent SFX, music and master volume control through an AudioMixer, so players can balance each channel.</li>
                     </ul>
                 </article>
             </div>
