@@ -1344,3 +1344,10 @@ body.modal-open .site-shell {
   .project-modal-overlay { padding: 16px 8px; }
   .project-modal { height: calc(100vh - 32px); border-radius: 16px; }
 }
+
+.code-block code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    display: block;
+}

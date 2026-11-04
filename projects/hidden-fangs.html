@@ -27,7 +27,7 @@
                 <div>
                     <p class="eyebrow">Hidden Fangs</p>
                     <h1>Unreal Engine 5 C++ Multiplayer Systems</h1>
-                    <p class="page-hero-copy">An Unreal Project where I designed and implemented the full game front end and backend.</p>
+                    <p class="page-hero-copy">An Unreal Project where I designed and implemented the full game front end and backend in C++.</p>
                     <div class="tag-row">
                         <span>Unreal Engine 5</span><span>C++</span><span>Multiplayer Replication</span><span>Solo Project</span>
                     </div>
@@ -45,7 +45,7 @@
                     </div>
                     <div class="sidebar-card">
                         <span>Engine / Stack</span>
-                        <strong>Unreal Engine 5, C++</strong>
+                        <strong>Unreal Engine 5, C++, Blueprint (UMG widgets)</strong>
                     </div>
                     <div class="sidebar-card">
                         <span>Links</span>
@@ -60,13 +60,12 @@
                 <div class="project-body">
                     <article class="content-block">
                         <h2>Overview</h2>
-                        <p>Hidden Fangs is a multiplayer social deduction game inspired by Werewolf. Players spawn in a village and are randomly assigned hidden roles at the start of each match. Gameplay alternates between a Day Phase, where players discuss and vote to eliminate a suspected werewolf, and a Night Phase, where players with special roles use their unique abilities. The objective is for the villagers to identify and eliminate all werewolves before the werewolves eliminate enough villagers to take control of the village.</p>
-                        <p>Social deduction lives or dies on communication, so the project includes both in-game text chat and voice chat, giving players the tools to bluff, accuse, and coordinate in real time.</p>
+                        <p>Hidden Fangs is a Werewolf-style social deduction game for 4 to 16 players. Hidden roles are assigned at the start of each match, then play alternates between a Night Phase, where players with special roles act in secret, and a Day Phase, where survivors discuss and vote to eliminate a suspect. I built the whole game alone in C++. The server owns the match: clients submit requests, and the server decides what happens.</p>
                         <ul class="detail-list">
-                            <li>Server-authoritative night action submission and resolution</li>
-                            <li>DataTable-driven role assignment and hidden-role reveal</li>
-                            <li>Replicated day/night phase management with synced UI timers</li>
-                            <li>Real-time werewolf pack coordination for shared night targeting</li>
+                            <li>Server-driven match flow: Role Reveal, Night, Day and Voting, with win checks between phases</li>
+                            <li>DataTable-driven role assignment across five roles: Werewolf, Medic, Seer, Villager, Mayor</li>
+                            <li>Server-authoritative night action and vote submission, validated before anything changes</li>
+                            <li>Session-based lobbies and a C++ settings framework (audio, graphics, display, key rebinding)</li>
                             <li>Tested with up to 4 simultaneous PIE instances for multiplayer validation</li>
                         </ul>
                     </article>
@@ -78,63 +77,213 @@
                     <h2>What I Worked On</h2>
 
                     <div class="worked-on-item">
+                        <h3>Server-Driven Match State Machine</h3>
+                        <p>Each client tells the server when its player list is complete, and the GameMode starts the match once every expected player has checked in. A server timer then drives the loop.</p>
+                        <ul class="detail-list">
+                            <li><strong>Phase Loop</strong> — Role Reveal, then Night, Day and Voting on repeat, with a win check between phases.</li>
+                            <li><strong>Replicated Timing</strong> — The GameState replicates the current phase and its end time. Each client's timer bar computes its fill from that end time and the server clock, so no replicated countdown is needed.</li>
+                        </ul>
+                        <pre class="code-block"><code class="language-cpp">void ACodeGameMode::OnPhaseTimerComplete()
+{
+    if (bGameOver) return;
+
+    if (const ACodeGameState* CurrentGameState = Cast&lt;ACodeGameState&gt;(GetGameState&lt;ACodeGameState&gt;()))
+    {
+        switch (CurrentGameState-&gt;CurrentPhase)
+        {
+        case EPhases::RoleReveal:
+            StartPhase(EPhases::Night);
+            break;
+        case EPhases::Night:
+            ResolveNightActions();
+            CheckWinConditions();
+            StartPhase(EPhases::Day);
+            break;
+        case EPhases::Day:
+            CheckWinConditions();
+            StartPhase(EPhases::Voting);
+            break;
+        case EPhases::Voting:
+            ResolveVotes();
+            CheckWinConditions();
+            StartPhase(EPhases::Night);
+            break;
+        default:
+            break;
+        }
+    }
+}
+                        </code></pre>
+                        <p class="why-it-matters">Phase state belongs on the GameState, not the GameMode. The GameMode exists only on the server, so anything clients need to display or react to has to live on an object that replicates.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Night Action Targeting & Validation</h3>
+                        <p>Clients never apply an action themselves. A night target or vote goes through a Server RPC on the PlayerState, and the server checks it before anything changes.</p>
+                        <ul class="detail-list">
+                            <li><strong>Server-Authoritative Submission</strong> — The server checks the phase, that both players are alive, that the player has not already acted, the Medic's and Seer's ability limits, that a Werewolf is not targeting their partner, and whether the role can act at night according to its DataTable row.</li>
+                            <li><strong>Error Feedback</strong> — When a check fails, the server bumps a replicated error counter and the client shows a notice through a RepNotify.</li>
+                            <li><strong>Private Results</strong> — Results only one player should see, such as the Seer's result and Werewolf partner names, go out through Client RPCs.</li>
+                        </ul>
+                        <pre class="code-block"><code class="language-cpp">void ACodePlayerState::Server_SubmitNightAction_Implementation(ACodePlayerState* AbilityTarget)
+{
+    if (const ACodeGameState* GameState = Cast&lt;ACodeGameState&gt;(GetWorld()-&gt;GetGameState()))
+    {
+        if (GameState-&gt;CurrentPhase == EPhases::Night &amp;&amp; bIsAlive &amp;&amp; !bHasSubmittedNightAction
+            &amp;&amp; IsValid(AbilityTarget) &amp;&amp; AbilityTarget-&gt;bIsAlive)
+        {
+            bool bCanVoteFor = true;
+
+            if (this == AbilityTarget &amp;&amp; CurrentRole == ERoles::Medic)
+            {
+                if (SelfProtectedCount &gt;= 1)
+                {
+                    VoteErrorCount++;
+                    OnRep_VoteErrorCount();
+                    bCanVoteFor = false;
+                }
+                else
+                {
+                    SelfProtectedCount++;
+                }
+            }
+            else if (WerewolfPartner == AbilityTarget)
+            {
+                VoteErrorCount++;
+                OnRep_VoteErrorCount();
+                bCanVoteFor = false;
+            }
+
+            // ... Seer ability limit, then the DataTable lookup:
+            if (bCanVoteFor &amp;&amp; RoleInfo-&gt;bCanActAtNight)
+            {
+                NightTarget = AbilityTarget;
+                bHasSubmittedNightAction = true;
+                OnRep_NightTarget();
+            }
+        }
+    }
+}
+                        </code></pre>
+                        <p class="why-it-matters">Server-side validation prevents client-side spoofing of actions, and private Client RPCs mean no client ever receives data about a role it isn't entitled to see.</p>
+                    </div>
+
+                    <div class="worked-on-item">
                         <h3>Role Assignment & Hidden Role Reveal</h3>
-                        <p>I built the role assignment system in BP_GameMode, gated on PostLogin so roles are assigned as players connect rather than all at once.</p>
+                        <p>Role definitions live in an Unreal DataTable, so rebalancing or adding a role does not touch the assignment code.</p>
                         <ul class="detail-list">
-                            <li><strong>DataTable-Driven Roles</strong> — Role data lives in <code>DT_Roles</code>, backed by an <code>E_Roles </code>enum and an <code>S_RoleInfo </code>struct, so adding or rebalancing roles doesn't require touching assignment logic. </li>
-                            <li><strong>Private Reveal RPC</strong> — Each player's role is sent to them individually via a <code>Client_ReceiveRole </code>RPC, keeping role information hidden from other clients instead of relying on client-side filtering of replicated data.</li>
+                            <li><strong>DataTable-Driven Roles</strong> — Each row holds the role's team, display text, icon, whether it can act at night, and whether it can announce itself publicly.</li>
+                            <li><strong>Scaled Assignment</strong> — The GameMode scales the Werewolf count with player count using a tunable ratio, caps it so Werewolves never start as a majority, unlocks the Medic, Seer and Mayor at configurable player counts, fills the rest with Villagers, and shuffles the pool.</li>
+                            <li><strong>Private Reveal</strong> — Werewolves are paired and each is told their partner's name privately.</li>
                         </ul>
-                        <p class="why-it-matters">Keeping role assignment server-side and reveal per-client closes off the obvious cheating vector in a hidden-role game — no client ever receives data about a role it isn't entitled to see.</p>
+                        <pre class="code-block"><code class="language-cpp">USTRUCT(BlueprintType)
+struct FSRoleInfo : public FTableRowBase
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) ERoles Role;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) ETeams Team;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) FText DisplayName;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) FText Description;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) UTexture2D* Icon;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) int NightActionOrder;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bCanActAtNight;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite) bool bCanAnnounceRole;
+};
+                        </code></pre>
                     </div>
 
                     <div class="worked-on-item">
-                        <h3>Day / Night Phase Management</h3>
-                        <p>Phase state lives on BP_GameState so it replicates cleanly to every client, with a CurrentPhase variable, timer logic, and a WBP_GamePhaseTimer widget that stays in sync across all players.</p>
-                        <p class="why-it-matters">Driving phase timing from GameState instead of GameMode was a deliberate fix — GameMode only exists on the server, so any UI or Multicast logic tied to phase changes has to live on GameState to reach clients at all.</p>
+                        <h3>Night, Vote & Win Resolution</h3>
+                        <ul class="detail-list">
+                            <li><strong>Night</strong> — The server collects each Werewolf's target, picks the kill (randomly if the pack disagrees), applies the Medic's protection, and sends the Seer their result.</li>
+                            <li><strong>Voting</strong> — A player is eliminated only with the most votes and more votes than the skip option, so ties and skipped rounds eliminate nobody.</li>
+                            <li><strong>Mayor</strong> — Can reveal their role publicly, showing a marker over their character for everyone through a NetMulticast function and giving their vote extra weight.</li>
+                            <li><strong>Win Check</strong> — After every phase the server counts living players by team from the DataTable, declares a winner, and broadcasts the result.</li>
+                        </ul>
                     </div>
 
                     <div class="worked-on-item">
-                        <h3>Night Action Targeting</h3>
-                        <p>I'm building the UI and networking for players to submit their night actions (e.g. werewolf kill target) and see them resolve correctly across every connected client.</p>
+                        <h3>Replicated Player State & Delegate-Driven UI</h3>
+                        <p>Each player's role, alive status, night target, vote counts and submission flags live on the PlayerState. Every RepNotify broadcasts a dynamic multicast delegate, so widgets react to changes instead of asking for them.</p>
                         <ul class="detail-list">
-                            <li><strong>Server-Authoritative Submission</strong> — Night actions are submitted through <code>Server_SubmitNightAction</code> on <code>BP_PlayerState</code>, so the server always has final say over what action was taken.</li>
-                            <li><strong>Targeting UI</strong> — <code>WBP_NightActionTargeting</code> is built from reusable <code>WBP_ButtonAndText</code> widgets, populated per-role with valid targets.</li>
-                            <li><strong>Pack Coordination</strong> — Werewolves share visibility into each other's target selection in real time via a <code>RepNotify</code> on <code>NightTarget</code> paired with an <code>OnNightTargetChanged</code> Event Dispatcher, so partner vote displays update live.</li>
+                            <li><strong>Manual RepNotify on Server</strong> — RepNotify functions do not run automatically on the server in C++, so the server calls them after changing a value, keeping a listen-server host's UI in sync with remote clients.</li>
+                            <li><strong>Runtime Player Lists</strong> — Night targeting and voting lists are generated at runtime, and live vote counts, the Werewolf partner's choice, role reveals and night results all use the same delegate pattern.</li>
+                            <li><strong>Order-Independent UI</strong> — Widgets that depend on the local PlayerState retry until it has replicated, so the UI does not depend on network arrival order.</li>
                         </ul>
-                        <p class="why-it-matters">submission prevents client-side spoofing of actions, while the RepNotify/dispatcher pair lets teammates coordinate without exposing anything to non-werewolf players.</p>
                     </div>
 
                     <div class="worked-on-item">
-                        <h3>Cabin Spawning System (Debug)</h3>
-                        <p>I tracked down and fixed a spawning bug in the village's cabin placement system.</p>
+                        <h3>Session-Based Lobbies</h3>
+                        <p>A GameInstance subsystem wraps the Online Subsystem session interface for creating, finding, joining and leaving lobbies, and reports each result through delegates.</p>
                         <ul class="detail-list">
-                            <li>Pure Blueprint nodes were re-executing on every wire read, which was silently defeating the duplicate-index prevention logic meant to stop cabins from spawning on top of each other.</li>
-                            <li>A mutation bug in a <code>SET Amount to Spawn</code> node was also causing a For Loop to terminate early, under-spawning cabins.</li>
+                            <li><strong>LAN and Online</strong> — LAN sessions on the Null subsystem, internet sessions on platform subsystems.</li>
+                            <li><strong>Session Cleanup</strong> — Creating or joining while an old session exists destroys the old one first, then retries.</li>
+                            <li><strong>Lobby Setup</strong> — The host picks a lobby name and a player count from 4 to 16, passed to the match through travel options so the server knows how many players to wait for. Player names are sanitized for the connection URL and saved to a SaveGame slot.</li>
                         </ul>
-                        <p class="why-it-matters">This one taught me to treat Blueprint's pure-node re-execution as a real gotcha rather than an edge case — anything relying on a pure node's result needs to cache it in a variable first if it's read more than once in the same execution path.</p>
                     </div>
 
+                    <div class="worked-on-item">
+                        <h3>Settings Framework</h3>
+                        <p>The pause and main menus share a C++ settings system built on CommonUI.</p>
+                        <ul class="detail-list">
+                            <li><strong>Audio & Graphics</strong> — Defined in DataTables. Audio uses Sound Classes and Sound Mixes with output-device switching. Graphics uses scalability settings, with an Overall option that flips to Custom when any single option changes. Both save between sessions.</li>
+                            <li><strong>Display</strong> — Monitor selection, window mode, resolution and frame-rate limits.</li>
+                            <li><strong>Controls</strong> — Enhanced Input user settings for key rebinding, with conflict detection, blocked applying until conflicts are resolved, and a prompt before discarding unsaved changes.</li>
+                        </ul>
+                    </div>
                 </article>
 
                 <article class="content-block">
                     <h2>Notes</h2>
 
                     <h3>Gameplay Overview</h3>
-                    <p>Hidden Fangs is a social deduction game for 4-16 players. Each match alternates between a Day Phase — where surviving players discuss and vote to eliminate a suspected werewolf — and a Night Phase, where players with special roles secretly act. Villagers win by eliminating all werewolves; werewolves win by reducing villagers to a number where they can no longer be outvoted.</p>
+                    <p>Hidden Fangs is a social deduction game for 4-16 players. Each match alternates between a Night Phase, where players with special roles secretly act, and a Day Phase, where surviving players discuss and vote to eliminate a suspected werewolf. Villagers win by eliminating all werewolves; werewolves win by reducing the villagers to a number where they can no longer be outvoted.</p>
 
                     <h3>Networking Architecture</h3>
-                    <p> The game uses Unreal's replication system to manage networked gameplay. Game-wide state (current phase, timers) lives on <code>BP_GameState</code>, per-player state (role, submitted night action) lives on <code>BP_PlayerState</code>, and server-only logic (role assignment, action resolution) lives on <code>BP_GameMode</code>.</p>
+                    <p>Match logic is split across Unreal's gameplay framework by who owns the data. The GameMode runs only on the server, so it holds the rules. The GameState and PlayerState replicate to every client, so they hold what players need to see.</p>
+                    <pre class="code-block"><code>GameMode  (server only)
+    ├─ Ready handshake and match start
+    ├─ Role assignment
+    ├─ Phase transitions and timers
+    ├─ Night-action and vote resolution
+    └─ Win conditions
+
+GameState  (replicated)
+    ├─ Current phase
+    ├─ Phase end time and duration
+    └─ Skip-vote count
+
+PlayerState  (replicated)
+    ├─ Role
+    ├─ Alive state
+    ├─ Night target
+    └─ Vote counts
+                    </code></pre>
+                    <table class="controls-table">
+                        <thead>
+                            <tr><th>Server-authoritative</th><th>Replicated to clients</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Role assignment and shuffling</td><td>Current match phase</td></tr>
+                            <tr><td>Phase transitions and timers</td><td>Phase end time and duration</td></tr>
+                            <tr><td>Validating night actions and votes</td><td>Alive or eliminated status</td></tr>
+                            <tr><td>Medic protection and Seer ability limits</td><td>Night target and vote counts</td></tr>
+                            <tr><td>Resolving kills, votes, ties and win conditions</td><td>Skip-vote count</td></tr>
+                            <tr><td>Private results (Werewolf partners, Seer result)</td><td>Match result, sent by NetMulticast</td></tr>
+                        </tbody>
+                    </table>
                     <ul class="detail-list">
-                        <li>Widget creation is gated behind <code>Is Local Controller</code> checks to prevent UI from spawning on the wrong client</li>
                         <li>Multiplayer testing is done with up to 4 simultaneous PIE (Play-In-Editor) instances</li>
-                        <li>Hidden information (roles, night targets) is sent via private client RPCs rather than filtered from replicated variables</li>
+                        <li>Hidden information (roles, partner names, Seer results) is sent via private Client RPCs rather than filtered from replicated variables</li>
+                        <li>Developed and built on Ubuntu with JetBrains Rider (see the <a href="Linux.html">Linux project</a>)</li>
                     </ul>
 
                     <h3>Architectural Lessons Learned</h3>
                     <ul class="detail-list">
                         <li>GameMode only exists on the server — any logic that needs to reach clients (Multicast RPCs, phase UI) has to live on GameState instead</li>
-                        <li>Pure Blueprint nodes re-execute every time their output is read, which can silently break logic that assumes a single evaluation — cache the result in a SET node if it's read more than once</li>
-                        <li>Widget creation needs to be gated with <code>Is Local Controller</code>, or every client ends up spawning UI meant only for the owning player</li>
+                        <li>RepNotify functions don't fire on the server in C++ — call them manually so a listen-server host sees the same UI as remote clients</li>
+                        <li>Widgets that depend on replicated data should retry until it arrives, rather than assuming network arrival order</li>
                     </ul>
 
                     <h3>Controls</h3>
@@ -149,9 +298,10 @@
                         </tbody>
                     </table>
 
-                    <h3>Working On Now</h3>
+                    <h3>Results</h3>
                     <ul class="detail-list">
-                        <li>Currently working on Game Loop</li>
+                        <li>Complete networked match loop, from lobby to win-condition resolution</li>
+                        <li>Five roles, four match phases, and lobbies for 4 to 16 players</li>
                     </ul>
                 </article>
             </div>
