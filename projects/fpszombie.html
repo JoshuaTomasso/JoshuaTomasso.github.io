@@ -1,306 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="FPSZombie project breakdown by Joshua Tomasso." />
-  <title>FPSZombie | Joshua Tomasso</title>
-  <script>if(window.self!==window.top)document.documentElement.classList.add('in-iframe');</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FPS Zombie project breakdown by Joshua Tomasso." />
+    <title>FPS Zombie | Joshua Tomasso</title>
+    <script>if(window.self!==window.top)document.documentElement.classList.add('in-iframe');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
-  <div class="site-shell inner-page-shell">
-    <header class="topbar topbar-inner">
-      <a class="brand" href="../index.html">Joshua Tomasso</a>
-      <nav class="nav nav-static" aria-label="Project navigation">
-        <a href="index.html">All Projects</a>
-        <a href="../index.html">Home</a>
-      </nav>
-    </header>
+    <div class="site-shell inner-page-shell">
+        <header class="topbar topbar-inner">
+            <a class="brand" href="../index.html">Joshua Tomasso</a>
+            <nav class="nav nav-static" aria-label="Project navigation">
+                <a href="index.html">All Projects</a>
+                <a href="../index.html">Home</a>
+            </nav>
+        </header>
 
-    <main class="project-page">
-      <a class="back-link" href="index.html">← Back to Projects</a>
-      <section class="project-hero">
-        <div>
-            <p class="eyebrow">FPSZombie</p>
-            <h1>Multiplayer Unity / Netcode for Gameobjects / Lobby / Relay</h1>
-          <p class="page-hero-copy">A Unity + C# first-person zombie survival shooter with responsive gunplay, survival mechanics, and full multiplayer support through Unity Netcode, Lobby, and Relay.</p>
-          <div class="tag-row">
-            <span>Unity</span><span>C#</span><span>Networking</span><span>Multiplayer</span>
-          </div>
-        </div>
-        <div class="project-hero-image">
-            <img src="../Images/FPSZombie.png"
-                 data-still="../Images/FPSZombie.png"
-                 data-gif="../Images/FPSZombieGameplayGif.gif"
-                 alt="FPS Zombie project preview"
-                 class="hover-gif"
-            >
-        </div>
-      </section>
-
-      <section class="project-layout">
-        <aside class="project-sidebar">
-          <div class="sidebar-card">
-            <span>Role</span>
-            <strong>Gameplay / Networking Programmer</strong>
-          </div>
-          <div class="sidebar-card">
-            <span>Engine / Stack</span>
-            <strong>Unity, C#, Netcode for GameObjects, Lobby, Relay</strong>
-          </div>
-          <div class="sidebar-card">
-            <span>Links</span>
-            <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/FPSZombie" target="_blank" rel="noreferrer">GitHub</a></div>
-          </div>
-        </aside>
-
-        <div class="project-body">
-          <article class="content-block">
-            <h2>Overview</h2>
-            <p>FPS Zombie is a first-person zombie survival game where players enter a town-based environment, collect weapons, and defend themselves against zombies that aggressively track the nearest player. The core objective is simple: survive as long as possible.</p>
-            <p>The project includes both single-player and multiplayer flows, along with gameplay systems for movement, shooting, pickups, health, death, UI, audio feedback, and networked player support.</p>
-            <ul class="detail-list">
-              <li>First-person gameplay programming in Unity using C#</li>
-              <li>Combat and weapon interaction systems</li>
-              <li>Enemy pursuit and survival loop design</li>
-              <li>HUD and player feedback systems</li>
-              <li>Multiplayer architecture using Unity Netcode for GameObjects</li>
-              <li>Lobby and Relay integration for session creation and joining</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <div class="project-body-full">
-          <article class="content-block">
-            <h2>What I Worked On</h2>
-
-            <div class="worked-on-item">
-              <h3>Network Camera Positioner</h3>
-              <p>I implemented the networked camera positioning setup for player-owned characters in the multiplayer scene.</p>
-              <ul class="detail-list">
-                <li><strong>Setup</strong> -The camera and audio listener are attached to the player prefab but toggled off by default so they don't activate for every connected client.</li>
-                <li><strong>Turn On</strong> - When the network object spawns, a check runs to see if the local client is the owner. If so, the camera and audio listener are enabled - no other player activates them.</li>
-                <li><strong>Update</strong> - Every <code>Update()</code>, if the local client owns this object, the camera position and rotation are continuously synced to the player's transform to stay locked to their view.</li>
-              </ul>
-              <p class="why-it-matters">This makes sure each player only controls and hears from their own perspective in multiplayer, which is a core requirement for a networked FPS.</p>
-              <div class="project-media">
-                <img src="../Images/FPSZombie_cameraSetupPositioner.png" alt="Network Camera Positioner setup in Unity" />
-                <img src="../Images/FPSZombie_playerData.png" alt="Character Select Visual setup in Unity" />
-              </div>
-            </div>
-
-            <div class="worked-on-item">
-              <h3>Network Camera Controller</h3>
-              <p>I built the owner-only camera controller that handles mouse input and cursor state for the local player.</p>
-              <ul class="detail-list">
-                <li><strong>Setup</strong> - The script is attached directly to the camera object on the player prefab.</li>
-                <li><strong>Start</strong> - On startup, if the local client owns this object, the cursor is locked to the center of the screen and hidden - standard FPS behavior.</li>
-                <li><strong>Update</strong> - Only runs for the owning client. If the game is paused, the cursor unlocks and becomes visible for menu interaction. Otherwise, it reads <code>Mouse X</code> and <code>Mouse Y</code> axis values and uses them to rotate the camera for first-person look.</li>
-              </ul>
-              <p class="why-it-matters">Wrapping all input in an owner check means remote player objects don't read local mouse input - a critical separation in multiplayer where every player object exists in the scene simultaneously.</p>
-              <div class="project-media">
-                <img src="../Images/FPSZombie_cameraSetupController.png" alt="Network Camera Controller setup in Unity" />
-              </div>
-            </div>
-
-            <div class="worked-on-item">
-              <h3>Player Data</h3>
-              <p>I created a shared player data system to keep player-specific information consistent across the network.</p>
-              <ul class="detail-list">
-                <li>Stores data that needs to be visible and consistent for all connected players, not just the local one.</li>
-                <li>Acts as an extensible location for player identity and session-level state.</li>
-                <li>Can be used to enforce entry rules - for example, checking if an incoming player shares a name with an existing player and blocking them from joining the lobby if so.</li>
-              </ul>
-              <p class="why-it-matters">Having a centralized, networked data container prevents systems from needing to reach into individual player objects to grab shared info. It also makes lobby validation and future multiplayer features easier to build on top of.</p>
-              <div class="project-media project-media--third">
-                <img src="../Images/FPSZombie_playerData.png" alt="Player Data setup in Unity" />
-              </div>
-            </div>
-
-            <div class="worked-on-item"> 
-              <h3>Zombie Game Multiplayer</h3>
-              <p>I built the main multiplayer session manager using Netcode for GameObjects that persists with the host across scenes.</p>
-              <ul class="detail-list">
-                <li><strong>Setup</strong> - Attached to an empty object in the scene where the server and lobby are initialized. Marked as <code>DontDestroyOnLoad</code> so it carries forward with the host through scene transitions.</li>
-                <li><strong>Single Player</strong> - When the player clicks the single-player button on the main menu, a boolean is set to <code>false</code>. This allows the game to start immediately as a host and then load the map.</li>
-                <li><strong>Multiplayer</strong> - When the player clicks the multiplayer button, the boolean is set to <code>true</code>. This bypasses starting a server automatically and instead loads into the lobby creation scene.</li>
-                <li><strong>Other</strong> - This class also handles join validation checks, initializes <code>PlayerData</code>, and sets up server-related delegates used by other systems throughout the project.</li>
-              </ul>
-              <p class="why-it-matters">Centralizing the single-player vs. multiplayer branching logic into one persistent manager keeps the flow clean and predictable. Other systems can rely on this object being present and initialized rather than managing their own startup paths.</p>
-              <div class="project-media project-media--stack">
-                <div class="project-media--grid">
-                  <img src="../Images/FPSZombie_zombieGameMultiplayer1.png" alt="Zombie Game Multiplayer setup 1" />
-                  <img src="../Images/FPSZombie_zombieGameMultiplayer2.png" alt="Zombie Game Multiplayer setup 2" />
-                  <img src="../Images/FPSZombie_zombieGameMultiplayer3.png" alt="Zombie Game Multiplayer setup 3" />
-                  <img src="../Images/FPSZombie_zombieGameMultiplayer4.png" alt="Zombie Game Multiplayer setup 4" />
-                  <img src="../Images/FPSZombie_zombieGameMultiplayer5.png" alt="Zombie Game Multiplayer setup 5" />
+        <main class="project-page">
+            <a class="back-link" href="index.html">← Back to Projects</a>
+            <section class="project-hero">
+                <div>
+                    <p class="eyebrow">FPS Zombie</p>
+                    <h1>Unity C# Multiplayer: Netcode for GameObjects, Lobby &amp; Relay</h1>
+                    <p class="page-hero-copy">A first-person zombie shooter for up to four players. I built the session flow (Lobby and Relay), the networked player and combat systems, and the zombie AI.</p>
+                    <div class="tag-row">
+                        <span>Unity</span><span>C#</span><span>Netcode for GameObjects</span><span>Lobby</span><span>Relay</span>
+                    </div>
                 </div>
-                <div class="project-media-video-ratio">
-                  <iframe src="https://www.youtube.com/embed/7ZKyOg2l_HA?si=2lIKgFzdTozmF16E" title="Zombie Game Multiplayer gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div class="project-hero-image">
+                    <img src="../Images/FPSZombie.png"
+                         data-still="../Images/FPSZombie.png"
+                         data-gif="../Images/FPSZombieGameplayGif.gif"
+                         alt="FPS Zombie project preview"
+                         class="hover-gif">
                 </div>
-              </div>
-            </div>
+            </section>
 
-            <div class="worked-on-item">
-              <h3>Zombie Game Lobby</h3>
-              <p>I built the full lobby system using Unity's Lobby and Relay packages, supporting multiple ways for players to create and join sessions.</p>
-              <ul class="detail-list">
-                <li><strong>Setup</strong> - Attached to an empty in the same scene as the Netcode objects, also marked as <code>DontDestroyOnLoad</code> so lobby state persists with the host.</li>
-                <li><strong>Create Lobby</strong> - Takes an entered name and a public/private toggle to create the lobby. Relay is configured at this step so players can connect without manual port-forwarding or network setup. The host runs the server; clients connect to it through Relay.</li>
-                <li><strong>Quick Join</strong> - Uses Unity Lobby's <code>QuickJoinLobby</code> to find any available session, grabs the relay data from the joined lobby, and starts the client connection through Netcode.</li>
-                <li><strong>Join with Code</strong> - Takes an entered lobby code, finds and joins the associated lobby, sets up relay data, then starts the Netcode client.</li>
-                <li><strong>Join with ID</strong> - Triggers when a player clicks a specific lobby in the list. Joins by lobby ID, sets up relay data, and starts the Netcode client.</li>
-                <li><strong>List Lobbies</strong> - Queries available lobbies, filters out full ones, and updates a public list used to populate the lobby browser UI.</li>
-                <li><strong>Heartbeat &amp; Periodic Refresh</strong> - Two timed handlers keep lobbies alive in Unity's service and keep the visible lobby list current.</li>
-              </ul>
-              <p class="why-it-matters">Implementing three separate join paths (Quick Join, Code, and ID) mirrors how production multiplayer games handle matchmaking UX. Relay removes the need for players to configure networking, which is a real barrier in player-hosted games.</p>
-              <div class="project-media project-media--stack">
-                <div class="project-media-video-ratio">
-                  <iframe src="https://www.youtube.com/embed/wBWbf109CBw?si=RzGu8XE37gLeIZ4u" title="Zombie Game Multiplayer Lobby Script" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <section class="project-layout">
+                <aside class="project-sidebar">
+                    <div class="sidebar-card">
+                        <span>Role</span>
+                        <strong>Gameplay / Networking Programmer</strong>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Engine / Stack</span>
+                        <strong>Unity, C#, Netcode for GameObjects, Unity Lobby, Unity Relay</strong>
+                    </div>
+                    <div class="sidebar-card">
+                        <span>Links</span>
+                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/FPSZombie" target="_blank" rel="noreferrer">GitHub</a></div>
+                    </div>
+                </aside>
+
+                <div class="project-body">
+                    <article class="content-block">
+                        <h2>Overview</h2>
+                        <p>Players spawn into a town, find weapons and survive zombies that hunt the nearest player. Single-player runs as a local host, and multiplayer goes through a lobby browser with Relay, so no port-forwarding is needed. A lobby setting switches between Survival and Turned, where dead players respawn as zombies.</p>
+                        <ul class="detail-list">
+                            <li>Three join paths (Quick Join, lobby code, lobby list) sharing one Relay connection flow</li>
+                            <li>Up to 4 players, with join approval and late-join rejection</li>
+                            <li>Server-owned game state, health, ammo and pause, with owner-driven movement and input</li>
+                            <li>Four zombie behaviors: chase, roam, investigate gunshots, and seek the closest player after idling</li>
+                        </ul>
+                    </article>
                 </div>
-              </div>
+            </section>
+
+            <div class="project-body-full">
+                <article class="content-block">
+                    <figure class="project-media-video">
+                        <div class="project-media-video-ratio">
+                            <iframe src="https://www.youtube.com/embed/_JSaGgaqof0?si=3qGX4nYWuuP7XmBs" title="FPS Zombie gameplay demo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <figcaption>Gameplay demo</figcaption>
+                    </figure>
+
+                    <h2>What I Worked On</h2>
+
+                    <div class="worked-on-item">
+                        <h3>1. Multiplayer Architecture: Lobby, Relay &amp; Session Flow</h3>
+                        <p>Creating or joining a lobby has to chain four services in order (Lobby, Relay, transport, Netcode) and recover when any step fails. <code>ZombieGameLobby</code> owns that chain and <code>ZombieGameMultiplayer</code> owns the Netcode session.</p>
+                        <ul class="detail-list">
+                            <li><strong>Create</strong> — The host creates the lobby, allocates Relay for one fewer than the max players, stores the Relay join code in lobby data visible only to members, configures the transport and starts the host.</li>
+                            <li><strong>Three Join Paths</strong> — Quick Join, join by code and join by lobby ID all read the join code from lobby data, join the Relay allocation, set client relay data and start the client. Failures raise events that a message UI listens to.</li>
+                            <li><strong>Keeping Lobbies Alive</strong> — A 15-second heartbeat keeps the host's lobby alive, a 1.1-second poll keeps lobby data current, and the lobby browser refreshes on its own timer. Each async call has an in-flight guard so requests never stack.</li>
+                            <li><strong>Failure Handling</strong> — Three consecutive failed polls count as a lost lobby, which shuts down the session and notifies the UI. Joins with a missing or empty join code fail cleanly.</li>
+                            <li><strong>Join Approval</strong> — The Netcode approval callback rejects joins once the game has left the character-select scene, or when the lobby is full, with a reason shown to the player. The lobby is locked when the match starts and unlocked at game over.</li>
+                            <li><strong>Shared Player Data</strong> — A <code>NetworkList&lt;PlayerData&gt;</code> holds client ID, name, model, kills and deaths. Clients ask the server to change their entry through Server RPCs, and the scoreboard and character-select UI refresh from the list-changed event.</li>
+                        </ul>
+                        <pre class="code-block"><code class="language-csharp">
+joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, MAX_PLAYER_AMOUNT, options);
+Allocation allocation = await AllocateRelayAsync();
+string joinCode = await GetRelayJoinCodeAsync(allocation);
+
+await LobbyService.Instance.UpdateLobbyAsync(joinedLobby.Id, new UpdateLobbyOptions
+{
+    Data = new Dictionary&lt;string, DataObject&gt;
+    {
+        { KEY_RELAY_JOIN_CODE, new DataObject(DataObject.VisibilityOptions.Member, joinCode) }
+    }
+});
+
+transport.SetHostRelayData(server.IpV4, (ushort)server.Port,
+    allocation.AllocationIdBytes, allocation.Key, allocation.ConnectionData);
+ZombieGameMultiplayer.Instance.StartHost();
+
+// Connection approval: one callback decides who gets in
+if (SceneManager.GetActiveScene().name != Loader.Scene.CharacterSelectScene.ToString())
+{ response.Approved = false; response.Reason = "Game in progress"; return; }
+if (NetworkManager.Singleton.ConnectedClientsIds.Count &gt;= MAX_PLAYER_AMOUNT)
+{ response.Approved = false; response.Reason = "Server full"; return; }
+                 </code></pre>
+                        <p class="why-it-matters">Relay removes port-forwarding, which is the biggest barrier in player-hosted games. Putting the join code in member-only lobby data means only players who joined the lobby can read it.</p>
+                        <div class="project-media project-media--stack">
+                            <div class="project-media-video-ratio">
+                                <iframe src="https://www.youtube.com/embed/wBWbf109CBw?si=RzGu8XE37gLeIZ4u" title="FPS Zombie lobby walkthrough" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>2. Player Systems: Ownership, Movement &amp; Death</h3>
+                        <p>Every player object exists on every client, so each system checks <code>IsOwner</code> before reading input or touching the camera.</p>
+                        <ul class="detail-list">
+                            <li><strong>Owner-Only Camera and Input</strong> — The camera, audio listener and minimap camera are only enabled for the owning client. Mouse look, cursor locking and key handling all run behind the owner check.</li>
+                            <li><strong>Owner-Written State</strong> — Rotation and walk and run flags are <code>NetworkVariable</code>s the owner writes, with an angle threshold so rotation only syncs on real change. Other clients drive animation from the change callbacks.</li>
+                            <li><strong>Movement</strong> — Rigidbody movement with ground drag, slope projection and a two-raycast stair-step check that lifts the player only when the lower ray hits and the upper ray is clear.</li>
+                            <li><strong>Death and Respawn</strong> — The server drops the weapon, disables controls on every client with an RPC and shrinks the collider so the body lies flat. The owner's camera lifts to a top-down view. A coroutine then respawns the player in Survival or spawns a zombie player in Turned.</li>
+                            <li><strong>Late-Join Safety</strong> — A death check on the first health change makes a player who joins mid-match see already-dead characters correctly.</li>
+                        </ul>
+                        <p class="why-it-matters">Owner-driven movement keeps controls responsive with no round trip. Anything that affects other players, such as health, ammo, death and the match result, is written by the server.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>3. Gameplay Systems: Combat, Ammo &amp; Zombie AI</h3>
+                        <p>Shooting is a client-side raycast, and the server applies damage and owns ammo. Zombies are simulated only on the server.</p>
+                        <ul class="detail-list">
+                            <li><strong>Shooting</strong> — The client aims a raycast from the camera, retargets it from the weapon muzzle, and sends the hit point and target <code>NetworkObjectId</code> to the server. The server resolves the object, checks it is alive, applies damage with the shooter's client ID for kill credit, and tells other clients to play effects.</li>
+                            <li><strong>Ammo and Reload</strong> — Magazine, reserve and reloading state are server-written <code>NetworkVariable</code>s. A reload shows the cached ammo count locally until the animation ends. If the server rejects the reload, the client rolls its UI back.</li>
+                            <li><strong>Zombie Chase</strong> — Re-evaluates the closest living player every 0.25 s using a non-allocating overlap sphere. Neighbor separation keeps zombies from stacking, and a blocked zombie waits and then sidesteps.</li>
+                            <li><strong>Seek After Idle</strong> — After 10 s without a target, a zombie searches globally for the nearest living player and validates the NavMesh path before moving, so it never heads for an unreachable player. Targets refresh while it travels.</li>
+                            <li><strong>Investigating Gunshots</strong> — A shot alerts zombies through a server-written <code>NetworkVariable</code>, with a random cooldown so every zombie does not react to every shot.</li>
+                            <li><strong>Turned Mode</strong> — Dead players respawn as zombie players, and a server-owned counter ends the match when every player has turned.</li>
+                        </ul>
+                        <pre class="code-block"><code class="language-csharp">
+// Client: raycast, then ask the server to apply it
+RequestShotServerRpc(origin, direction, hit.point, hit.normal, hitNetworkObjectId);
+
+[Rpc(SendTo.Server)]
+private void RequestShotServerRpc(Vector3 origin, Vector3 direction, Vector3 hitPoint,
+    Vector3 hitNormal, ulong hitNetworkObjectId, RpcParams rpcParams = default)
+{
+    if (NetworkManager.Singleton.SpawnManager.SpawnedObjects
+            .TryGetValue(hitNetworkObjectId, out NetworkObject hitNetObj))
+    {
+        var health = hitNetObj.GetComponent&lt;HaveHealth&gt;();
+        if (health != null &amp;&amp; !health.IsDead)
+            health.TakeDamage(damage, rpcParams.Receive.SenderClientId);
+    }
+    SpawnMuzzleFlashClientRpc();
+}
+
+// Zombie: only head for a player the NavMesh can actually reach
+if (!NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, path)
+    || path.status != NavMeshPathStatus.PathComplete)
+{ _currentTarget = null; return; }
+                 </code></pre>
+                        <p class="why-it-matters">Client-side hit detection keeps shooting responsive, and server-side damage means clients can never edit health or ammo. Running zombie AI only on the server keeps every client's zombies consistent.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>4. Supporting Systems</h3>
+                        <ul class="detail-list">
+                            <li><strong>Pause</strong> — Each client's pause request goes to the server, which pauses the game for everyone while any player is paused.</li>
+                            <li><strong>Audio</strong> — A singleton <code>SoundFXManager</code> spawns 3D audio sources on demand with random clip variation, and <code>SoundMixerManager</code> converts slider values to decibels with <code>Log10</code> so volume feels even.</li>
+                            <li><strong>HUD and Menus</strong> — Health, ammo, minimap, scoreboard, lobby settings and pause UI react to events and <code>NetworkVariable</code> changes and only render for the owning player.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="content-block">
+                    <h2>Notes</h2>
+
+                    <h3>Results</h3>
+                    <ul class="detail-list">
+                        <li>Complete flow: main menu, lobby browser, character select, match, game over, back to character select</li>
+                        <li>Three lobby join paths and two game modes (Survival, Turned)</li>
+                        <li>Four zombie behaviors running server-side</li>
+                    </ul>
+
+                    <h3>What I’d improve next</h3>
+                    <ul class="detail-list">
+                        <li>Merge the three duplicated join methods into one shared connect flow.</li>
+                        <li>Validate shots on the server (range and line of sight) instead of trusting the client's hit.</li>
+                    </ul>
+                </article>
             </div>
-
-            <div class="worked-on-item">
-              <h3>Network Player Prefab</h3>
-              <p>I structured the networked player prefab to group all gameplay, visual, camera, and HUD systems in a clean, intentional hierarchy.</p>
-              <ul class="detail-list">
-                <li><strong>Root</strong> - An empty that holds all gameplay scripts and acts as the parent for all child systems.</li>
-                <li><strong>Camera Hierarchy</strong> - The camera and its controller are parented under a separate empty. This keeps all camera-related logic grouped and separable from the rest of the player.</li>
-                <li><strong>Player Visual</strong> - Holds all available models. Only the selected model is toggled on when the scene loads. Each model has its own animator driven by the Player Animation script.</li>
-                <li><strong>Step Ray Lower / Upper</strong> - Two empty objects that drive stair-step logic. When only the lower raycast hits geometry (and not the upper), the player is moved upward on the Y axis in the direction of movement, allowing smooth step traversal.</li>
-                <li><strong>HUD</strong> - UI elements for health, ammo, and crosshair. Currently includes a delay indicator used to test input latency during development.</li>
-              </ul>
-              <p class="why-it-matters">A well-organized prefab makes iteration faster, debugging easier, and onboarding clearer. Keeping movement logic, camera logic, visuals, and UI in separate branches means changes to one don't break others.</p>
-              <div class="project-media project-media--solo-video">
-                <video src="../Images/FPSZombie_networkPlayerPrefab.mp4" alt="Player Data setup in Unity" controls></video>
-              </div>
-            </div>
-
-            <div class="worked-on-item">
-              <h3>Network Zombie Prefab</h3>
-              <p>I worked with a zombie prefab where scripts and colliders are kept on a separate empty from the visual model.</p>
-              <ul class="detail-list">
-                <li>All gameplay logic and colliders live on a root empty, not on the model itself.</li>
-                <li>The visual model is a child that can be swapped, updated, or animated independently without touching gameplay code.</li>
-              </ul>
-              <p class="why-it-matters">Separating logic from visuals is a practical prefab design habit. It means artist or animation changes don't risk breaking hitboxes or scripts, and the model can be iterated on without touching gameplay.</p>
-              <div class="project-media project-media--solo-video">
-                <video src="../Images/FPSZombie_networkZombiePrefab.mp4" alt="Network Zombie Prefab setup in Unity" controls></video>
-              </div>
-            </div>
-
-            <div class="worked-on-item">
-              <h3>Sound FX and Music</h3>
-              <p>I set up the audio architecture for the project, keeping sound effects and music on separate systems with independent volume control.</p>
-              <ul class="detail-list">
-                <li><strong>Sound FX Setup</strong> - Sound effects play through a dynamically spawned audio source prefab. Spawning is handled entirely through the <code>SoundFXManager</code>. Any system that wants to play a sound calls a function through the manager's instance. All sound effects play in a 3D spatial environment so they have positional falloff.</li>
-                <li><strong>Music Setup</strong> - Music plays from a pre-placed empty object already in the scene. It starts on spawn, loops continuously, and plays through a 2D environment so it has no positional effect.</li>
-                <li><strong>Volume</strong> - Volume for both channels is handled through the <code>SoundMixerManager</code>. Music and sound effects are controlled independently, so adjusting one doesn't affect the other. A master volume slider can lower everything at once.</li>
-              </ul>
-              <p class="why-it-matters">Splitting sound effects and music into separate spawning systems and mixer channels is a standard production audio pattern. It gives designers and players independent control over each layer without them interfering with each other.</p>
-              <div class="project-media project-media--stack">
-                <img src="../Images/FPSZombie_music.png" alt="Music setup in Unity" />
-                <img src="../Images/FPSZombie_soundFXPrefab.png" alt="Sound FX setup in Unity" />
-              </div>
-            </div>
-
-            <div class="worked-on-item">
-              <h3>Sound FX Manager</h3>
-              <p>I built a singleton manager responsible for all runtime sound effect spawning in the game.</p>
-              <ul class="detail-list">
-                <li>Implemented as a <code>DontDestroyOnLoad</code> singleton - if additional instances are loaded, they self-destroy to prevent duplicates.</li>
-                <li><strong><code>PlaySoundFXClip</code></strong> - Takes an audio clip, a world position, a volume value, and a spatial blend. Spawns an audio source prefab at that position, configures it with the provided settings, plays the clip, then destroys the object once playback finishes.</li>
-                <li><strong><code>PlayRandomSoundFXClip</code></strong> - Takes an array of audio clips along with the same position, volume, and spatial blend parameters. Picks a random clip using the array length as the upper bound, then spawns and plays it the same way as the single-clip version.</li>
-              </ul>
-              <p class="why-it-matters">Routing all sound effect playback through a single manager makes it easy to add new sounds to any system without duplicating audio logic. The random clip variant adds natural variation to repeated sounds like footsteps or impacts.</p>
-              <div class="project-media project-media--third">
-                <img src="../Images/FPSZombie_soundFXManager.png" alt="Sound FX Manager setup in Unity" />
-              </div>
-            </div>
-
-            <div class="worked-on-item">
-              <h3>Sound Mixer Manager</h3>
-              <p>I built a singleton volume manager that controls audio mixer levels for sound effects, music, and master volume.</p>
-              <ul class="detail-list">
-                <li>Implemented as a <code>DontDestroyOnLoad</code> singleton - destroys extra instances if more than one is loaded.</li>
-                <li><strong><code>Set[Type]Volume</code></strong> - Each function targets a specific mixer group (SFX, Music, or Master) and applies volume using <code>Log10</code>. Unity's audio mixers use an exponential decibel scale, so the raw slider value is converted through <code>Log10</code> to produce a perceptually linear result for the player.</li>
-              </ul>
-              <p class="why-it-matters">Using <code>Log10</code> for volume conversion is a technical detail that matters a lot in practice - a linear slider without it would make the lower half of the range nearly silent and the upper half barely audible as a difference. Getting this right means the volume slider actually feels proportional to the player.</p>
-              <div class="project-media project-media--third">
-                <img src="../Images/FPSZombie_soundMixerManager.png" alt="Sound Mixer Manager setup in Unity" />
-              </div>
-            </div>
-
-          </article>
-
-          <article class="content-block">
-            <h2>Notes</h2>
-
-            <figure class="project-media-video">
-              <div class="project-media-video-ratio">
-                <iframe src="https://www.youtube.com/embed/_JSaGgaqof0?si=3qGX4nYWuuP7XmBs" title="Zombie FPS gameplay" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              </div>
-              <figcaption>FPS Zombie Gameplay Demo</figcaption>
-            </figure>
-
-            <h3>Gameplay Loop</h3>
-            <p>Players spawn into the map and must quickly find and use weapons to survive incoming zombie attacks. After short intervals, zombies begin running toward the closest player, creating constant pressure and forcing players to balance movement, aim, ammo, and survival decisions. When a zombie is killed, it can randomly drop <strong>health</strong> or <strong>ammo</strong>, adding a resource-management layer to the combat loop.</p>
-            <ol class="detail-list">
-              <li>Explore the map and pick up weapons</li>
-              <li>Fight off approaching zombies</li>
-              <li>Manage ammo and reload timing</li>
-              <li>Recover health and supplies from drops</li>
-              <li>Respawn and re-enter the fight after death</li>
-            </ol>
-
-            <h3>Controls</h3>
-            <table class="controls-table">
-              <thead>
-                <tr><th>Action</th><th>Input</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Move</td><td>W / A / S / D</td></tr>
-                <tr><td>Look</td><td>Mouse Move</td></tr>
-                <tr><td>Sprint</td><td>Left Shift</td></tr>
-                <tr><td>Jump</td><td>Spacebar</td></tr>
-                <tr><td>Pick Up / Drop Weapon</td><td>E</td></tr>
-                <tr><td>Shoot</td><td>Left Mouse Button</td></tr>
-                <tr><td>Reload</td><td>R</td></tr>
-                <tr><td>Pause Game</td><td>P or Esc</td></tr>
-              </tbody>
-            </table>
-
-            <h3>Scene / Flow Overview</h3>
-            <p>The game includes a complete flow rather than a single isolated test level:</p>
-            <ul class="detail-list">
-              <li><strong>Main Menu</strong> - select single-player or multiplayer</li>
-              <li><strong>Lobby / Create / Join flow</strong> - multiplayer session setup</li>
-              <li><strong>Character selection / player setup flow</strong></li>
-              <li><strong>Gameplay maps</strong> - survival combat takes place here</li>
-              <li><strong>Pause and HUD systems</strong> - active during play</li>
-            </ul>
-            <p>This demonstrates work across gameplay, UI, and session flow rather than only a single mechanic.</p>
-
-            <h3>Future Improvements</h3>
-            <ul class="detail-list">
-              <li>Additional zombie types and behaviors</li>
-              <li>More weapons and weapon-switching support</li>
-              <li>Round progression and difficulty scaling</li>
-              <li>Expanded maps and encounter design</li>
-              <li>More advanced animation and state transitions</li>
-              <li>Scoreboards, match stats, or progression tracking</li>
-              <li>Additional multiplayer polish and UX improvements</li>
-            </ul>
-          </article>
-      </div>
-    </main>
-  </div>
-  <script src="../script.js"></script>
+        </main>
+    </div>
+    <script src="../script.js"></script>
 </body>
 </html>
