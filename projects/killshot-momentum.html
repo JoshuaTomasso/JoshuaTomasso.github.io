@@ -26,10 +26,10 @@
             <section class="project-hero">
                 <div>
                     <p class="eyebrow">Killshot Momentum</p>
-                    <h1>Unreal / C++ / UI / AI / Team Development / Save & Load Systems</h1>
-                    <p class="page-hero-copy">A fast-paced first-person momentum game built in Unreal Engine, focused on completing maps as quickly as possible while navigating enemies and misdirections — featuring full UI systems, AI, and a complete game flow.</p>
+                    <h1>Unreal Engine 5 C++ UI Framework &amp; Behavior Tree AI</h1>
+                    <p class="page-hero-copy">A team-built first-person momentum game. I wrote the C++ UMG widget layer, built the enemy AI with AIPerception and Behavior Trees, and owned the settings and level-flow systems.</p>
                     <div class="tag-row">
-                        <span>Unreal Engine 5</span><span>C++</span><span>Blueprint</span><span>UI</span><span>AI</span><span>Save/Load System</span>
+                        <span>Unreal Engine 5</span><span>C++</span><span>Blueprint</span><span>AI</span><span>Team Project</span>
                     </div>
                 </div>
                 <div class="project-hero-image">
@@ -45,32 +45,27 @@
                 <aside class="project-sidebar">
                     <div class="sidebar-card">
                         <span>Role</span>
-                        <strong>Gameplay Programmer</strong>
+                        <strong>Gameplay Programmer (UI, AI, Game Flow)</strong>
                     </div>
                     <div class="sidebar-card">
                         <span>Engine / Stack</span>
-                        <strong>Unreal Engine, Blueprint</strong>
+                        <strong>Unreal Engine 5, C++ (UI layer), Blueprint (AI, settings)</strong>
                     </div>
                     <div class="sidebar-card">
                         <span>Links</span>
-                        <div class="sidebar-links"><a href="https://blitzboys.itch.io/killshotmomentum" target="_blank" rel="noreferrer">Project Page</a></div>
-                    </div>
-                    <div class="sidebar-card">
-                        <span>Links</span>
-                        <div class="sidebar-links"><a href="https://github.com/JoshuaTomasso/KillshotMomentum" target="_blank" rel="noreferrer">GitHub Link</a></div>
+                        <div class="sidebar-links"><a href="https://blitzboys.itch.io/killshotmomentum" target="_blank" rel="noreferrer">Project Page</a> · <a href="https://github.com/JoshuaTomasso/KillshotMomentum" target="_blank" rel="noreferrer">GitHub</a></div>
                     </div>
                 </aside>
 
                 <div class="project-body">
                     <article class="content-block">
                         <h2>Overview</h2>
-                        <p>Killshot Momentum is a first-person momentum-based game built in Unreal Engine as part of a team. The objective is to complete each map as fast as possible while navigating enemies that block your path and misdirections designed to throw you off course. When you reach the end portal, a UI menu displays your completion time and options to continue.</p>
-                        <p>My contributions focused on UI systems, AI behavior, and the overall game flow — building the menus, settings, and enemy logic that tie the experience together.</p>
+                        <p>Killshot Momentum is a first-person momentum game where the goal is to finish each map as fast as possible while enemies block key paths and level misdirections throw you off course. Reaching the end portal shows your completion time and lets you replay, advance, or return to the menu.</p>
                         <ul class="detail-list">
-                            <li>Full UI system including Main Menu, Pause Menu, Settings, Key Bindings, and Map Complete screen</li>
-                            <li>AI enemy behavior using Behavior Trees and AIPerception</li>
-                            <li>Game Instance–driven level loading and session management</li>
-                            <li>Settings system built on Unreal's Game User Settings with hardware benchmarking</li>
+                            <li>Six C++ UserWidget classes: a reusable button, main menu, pause menu, key bindings, HUD and results screen</li>
+                            <li>Enemy AI with AIPerception, a Blackboard and two Behavior Tree variants</li>
+                            <li>Game Instance–driven level flow: load first, current and next level, main menu, quit</li>
+                            <li>Settings built on Game User Settings with a hardware benchmark</li>
                         </ul>
                     </article>
                 </div>
@@ -81,161 +76,94 @@
                     <h2>What I Worked On</h2>
 
                     <div class="worked-on-item">
-                        <h3>Settings Menu</h3>
-                        <p>I built a full-screen settings UI using Unreal's Game User Settings system, giving players control over display and graphics options.</p>
+                        <h3>C++ UI Framework</h3>
+                        <p>Every menu in the game shares one C++ button class, so behavior is written once and each screen only binds to it.</p>
                         <ul class="detail-list">
-                            <li><strong>UI Layout</strong> - A dark-themed widget where each row shows a setting label with horizontal selector buttons. Options include Window Mode, Display Resolution, Frame Rate Limit, View Distance, Post Processing, Anti-Aliasing, Texture Quality, and Shadow Quality.</li>
-                            <li><strong>Window Mode &amp; Resolution</strong> - Each window mode button retrieves Game User Settings, applies the correct fullscreen enum, and updates the UI to reflect the active selection. The resolution dropdown splits the selected string into width and height values, constructs an IntPoint, and applies it via Set Screen Resolution.</li>
-                            <li><strong>Save &amp; Back</strong> - The Apply button saves all current settings to disk via Game User Settings. The Back button creates and adds the previous menu widget to the viewport, then removes the settings screen.</li>
-                            <li><strong>Optimal Settings</strong> - Runs a hardware benchmark through Game User Settings and automatically loads the recommended values back into the UI, populating all settings fields with hardware-appropriate defaults.</li>
+                            <li><strong>Reusable Button</strong> — <code>UCodeButtonWithText</code> uses <code>meta = (BindWidget)</code> to bind its Button and TextBlock to the widget blueprint, exposes a <code>BlueprintAssignable</code> <code>OnClicked</code> delegate, and sets its label in <code>NativePreConstruct</code> so the text shows in the editor preview.</li>
+                            <li><strong>Menus as Thin Classes</strong> — The main menu, pause menu, key bindings and results screen bind to that delegate with <code>AddDynamic</code>. Widget classes to open next are <code>TSubclassOf</code> properties set in Blueprint, so C++ never hard-references an asset path.</li>
+                            <li><strong>Direct Game Instance Binding</strong> — The main menu binds Play and Quit straight to <code>UCodeGameInstance::LoadFirstLevel</code> and <code>QuitTheGame</code>. Pause, results and menus all route level changes through the same Game Instance functions.</li>
                         </ul>
-                        <p class="why-it-matters">Hooking into Game User Settings means player preferences persist between sessions without any custom save logic. The hardware benchmark feature lets players get a reasonable starting configuration on any machine without manual tuning.</p>
+                            <pre class="code-block"><code class="language-cpp">// CodeButtonWithText.h: bound to the widget blueprint, exposed to every menu
+UPROPERTY(meta = (BindWidget)) class UButton* BackgroundButton;
+UPROPERTY(meta = (BindWidget)) class UTextBlock* Information;
+UPROPERTY(BlueprintAssignable, Category = "Button") FOnClickedEvent OnClicked;
+
+// CodeMainMenu.cpp: menu buttons call Game Instance functions directly
+GameInstanceObject = Cast&lt;UCodeGameInstance&gt;(UGameplayStatics::GetGameInstance(GetWorld()));
+if (GameInstanceObject)
+{
+    PlayGame_Button-&gt;OnClicked.AddDynamic(GameInstanceObject, &amp;UCodeGameInstance::LoadFirstLevel);
+    QuitGame_Button-&gt;OnClicked.AddDynamic(GameInstanceObject, &amp;UCodeGameInstance::QuitTheGame);
+}
+                             </code></pre>
+                        <p class="why-it-matters">One button class means hover colors, click handling and label setup live in one place, and a new menu is just a layout plus a few bindings. Keeping level changes in the Game Instance means no widget ever calls <code>OpenLevel</code> itself.</p>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Results Screen &amp; Run Timer</h3>
+                        <p><code>UCodePlayerScore</code> reads the finished run time from the Game Mode, formats it, and returns the player to the menu automatically if they walk away.</p>
+                        <ul class="detail-list">
+                            <li><strong>Time Formatting</strong> — The elapsed float is split into minutes, seconds and milliseconds with <code>FloorToInt</code> and <code>Fmod</code>, then zero-padded with <code>FString::Printf</code>.</li>
+                            <li><strong>Auto Return</strong> — <code>SetWin</code> hides the button area, switches a <code>UWidgetSwitcher</code> to the results page and starts a one-shot timer that calls <code>LoadMainMenu</code>.</li>
+                        </ul>
+                            <pre class="code-block"><code class="language-cpp">int32 TotalMinutes      = FMath::FloorToInt(TotalTime / 60.0f);
+int32 TotalSeconds      = FMath::FloorToInt(FMath::Fmod(TotalTime, 60.0f));
+int32 TotalMilliseconds = FMath::FloorToInt((TotalTime - FMath::FloorToInt(TotalTime)) * 1000.0f);
+FString Formatted = FString::Printf(TEXT("%02d:%02d.%03d"), TotalMinutes, TotalSeconds, TotalMilliseconds);
+
+// SetWin(): return to the menu after a delay so the screen never gets stuck
+GetWorld()-&gt;GetTimerManager().SetTimer(TimerHandle, this, &amp;UCodePlayerScore::LoadMainMenu, TimeToMenu, false);
+                             </code></pre>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Enemy AI: Perception, Blackboard &amp; Behavior Trees</h3>
+                        <p>Enemies that block the route have to react to the player without overcomplicating a speed-run. I built the AI Controller, the Blackboard and two Behavior Tree variants.</p>
+                        <ul class="detail-list">
+                            <li><strong>Perception to Blackboard</strong> — The AI Controller binds <code>HandlePerception</code> to AIPerception's On Target Perception Updated event. A successful stimulus writes the detected actor to the <code>Player</code> key and a lost one clears it. The tree only reads that key and never talks to perception directly.</li>
+                            <li><strong>Behavior Tree</strong> — A Sequence runs a custom <code>BTTask_FaceObject</code> task each cycle. The Blackboard holds <code>SelfActor</code> and <code>Player</code>.</li>
+                            <li><strong>Two Variants</strong> — <code>BT_LookAtXYZ</code> applies the full look-at rotation, so an enemy can tilt toward a player above or below it. <code>BT_LookAtXZ</code> only applies yaw by building the rotator from roll and pitch that already exist, so grounded enemies stay upright.</li>
+                        </ul>
+                        <p class="why-it-matters">Choosing the rotation axes per enemy was a design decision, not a bug fix. Tilting a standing enemy toward a jumping player looks wrong, while a floating one should track in all axes. Splitting the task into two variants kept each one simple.</p>
+                        <div class="project-media">
+                            <img src="../Images/KillshotMomentum_BT_LookAtXZ.png" alt="Behavior Tree for yaw-only look at" />
+                            <img src="../Images/KillshotMomentum_BTTask_FaceObjectXZ.png" alt="Yaw-only face object task in Blueprint" />
+                            <img src="../Images/KillshotMomentum_BTTask_FaceObjectXYZ.png" alt="Full rotation face object task in Blueprint" />
+                        </div>
+                    </div>
+
+                    <div class="worked-on-item">
+                        <h3>Settings &amp; Game Flow</h3>
+                        <p>The settings menu uses Unreal's Game User Settings, so window mode, resolution, frame rate limit and the scalability options persist between sessions without custom save code.</p>
+                        <ul class="detail-list">
+                            <li><strong>Hardware Benchmark</strong> — An Optimal Settings button runs the Game User Settings benchmark and writes the recommended values back into every selector.</li>
+                            <li><strong>Menu Flow</strong> — Main menu, pause menu, key bindings, settings and results each swap to the next widget with the same create, add and remove pattern, so the flow is easy to extend.</li>
+                        </ul>
                         <div class="project-media">
                             <img src="../Images/KillshotMomentum_SettingsMenuUI.png" alt="Killshot Momentum Settings Menu" />
-                            <img src="../Images/KillshotMomentum_SettingsMenuBlueprint_1.png" alt="Killshot Momentum Settings Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_SettingsMenuBlueprint_2.png" alt="Killshot Momentum Settings Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_SettingsMenuBlueprint_3.png" alt="Killshot Momentum Settings Menu Blueprint" />
-                        </div>
-                    </div>
-
-                    <div class="worked-on-item">
-                        <h3>Map Complete Menu</h3>
-                        <p>I built the end-of-level screen that displays the player's completion time and handles navigation after finishing a map.</p>
-                        <ul class="detail-list">
-                            <li><strong>UI Layout</strong> - Displays a "You Finished!!!" header, a timer showing elapsed time in MM:SS:MS format, and three buttons — Play Again, Next Level, and Main Menu.</li>
-                            <li><strong>Timer Display</strong> - On construction, the widget casts to the Game Instance and Game Mode to retrieve the elapsed time. The value is split into minutes, seconds, and milliseconds using division and floor operations, then formatted and displayed on screen.</li>
-                            <li><strong>Navigation Buttons</strong> - Each button calls a corresponding function on the Game Instance — Main Menu loads the main menu level, Play Again reloads the current level, and Next Level loads the next one in sequence.</li>
-                            <li><strong>Set Win (Auto Return)</strong> - A custom event that hides the button area, switches the active widget to the results display, then sets a one-shot timer. When it expires, it fires a LoadMainMenu event to automatically return the player to the main menu after a set delay.</li>
-                        </ul>
-                        <p class="why-it-matters">Routing all level transitions through the Game Instance keeps the navigation logic centralized. The auto-return timer means the game never gets stuck on the results screen even if the player walks away.</p>
-                        <div class="project-media">
-                            <img src="../Images/KillshotMomentum_MapCompleteUI.png" alt="Killshot Momentum Map Complete Menu" />
-                            <img src="../Images/KillshotMomentum_MapCompleteBlueprint_1.png" alt="Killshot Momentum Map Complete Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_MapCompleteBlueprint_2.png" alt="Killshot Momentum Map Complete Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_MapCompleteBlueprint_3.png" alt="Killshot Momentum Map Complete Menu Blueprint" />
-                        </div>
-                    </div>
-
-                    <div class="worked-on-item">
-                        <h3>Pause Menu</h3>
-                        <p>I built the pause menu overlay that handles game state, input mode switching, and navigation to sub-menus.</p>
-                        <ul class="detail-list">
-                            <li><strong>UI Layout</strong> - A centered overlay widget with a "Pause Menu" header and five buttons — Resume, Settings, Key Bindings, Restart, and Main Menu.</li>
-                            <li><strong>Resume</strong> - Unpauses the game, switches input back to game-only mode, hides the cursor, updates the player's pause state flag, and removes the widget from the viewport.</li>
-                            <li><strong>Settings / Key Bindings</strong> - Creates and adds the corresponding widget to the viewport, then removes the pause menu. Each sub-menu follows the same pattern with a different target widget class.</li>
-                            <li><strong>Restart &amp; Main Menu</strong> - Call their respective load functions on the Game Instance to reload the current level or return to the main menu.</li>
-                        </ul>
-                        <p class="why-it-matters">Handling input mode and cursor state directly in the Resume logic means the game never gets stuck in a state where the cursor is visible during play or locked during menus. All sub-menu navigation follows a consistent swap pattern, making it easy to extend.</p>
-                        <div class="project-media">
-                            <img src="../Images/KillshotMomentum_PauseMenuUI.png" alt="Killshot Momentum Pause Menu" />
-                            <img src="../Images/KillshotMomentum_PauseMenuBlueprint_1.png" alt="Killshot Momentum Pause Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_PauseMenuBlueprint_2.png" alt="Killshot Momentum Pause Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_PauseMenuBlueprint_3.png" alt="Killshot Momentum Pause Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_PauseMenuBlueprint_4.png" alt="Killshot Momentum Pause Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_PauseMenuBlueprint_5.png" alt="Killshot Momentum Pause Menu Blueprint" />
-                        </div>
-                    </div>
-
-                    <div class="worked-on-item">
-                        <h3>Main Menu</h3>
-                        <p>I built the title screen that initializes the settings system and routes the player into the game or to supporting screens.</p>
-                        <ul class="detail-list">
-                            <li><strong>UI Layout</strong> - A styled title screen featuring the "Killshot Momentum" branding with a character illustration and three buttons — Play Game, Key Bindings, and Quit.</li>
-                            <li><strong>Event Construct</strong> - On construction, casts to the Game Instance to store a reference, creates and stores a Settings Widget, then calls Load Settings to populate any saved preferences.</li>
-                            <li><strong>Key Bindings</strong> - Removes the current menu widget and creates the Key Bindings widget, adding it to the viewport with the player controller as the owning player.</li>
-                            <li><strong>Play Game</strong> - Calls Load First Level on the Game Instance to begin the game.</li>
-                            <li><strong>Quit</strong> - Calls Quit the Game on the Game Instance to close the application.</li>
-                        </ul>
-                        <p class="why-it-matters">Initializing the Settings Widget silently on construction means saved settings are always restored before the player does anything, without requiring an extra step or screen. Centralizing Play and Quit through the Game Instance keeps startup logic consistent with the rest of the flow.</p>
-                        <div class="project-media">
                             <img src="../Images/KillshotMomentum_MainMenuUI.png" alt="Killshot Momentum Main Menu" />
-                            <img src="../Images/KillshotMomentum_MainMenuBlueprint_1.png" alt="Killshot Momentum Main Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_MainMenuBlueprint_2.png" alt="Killshot Momentum Main Menu Blueprint" />
-                            <img src="../Images/KillshotMomentum_MainMenuBlueprint_3.png" alt="Killshot Momentum Main Menu Blueprint" />
+                            <img src="../Images/KillshotMomentum_PauseMenuUI.png" alt="Killshot Momentum Pause Menu" />
                         </div>
                     </div>
-
-                    <div class="worked-on-item">
-                        <h3>Key Binding Menu</h3>
-                        <p>I built a reference screen that displays all game controls and handles navigation back to whichever menu opened it.</p>
-                        <ul class="detail-list">
-                            <li><strong>UI Layout</strong> - A three-column reference screen displaying all controls grouped by category — Movement (W/A/S/D, Space Bar, Left Shift), Attack (Left Mouse Click), and Level Keys (P to Pause, F to Reset Level). A Back button sits in the bottom right corner.</li>
-                            <li><strong>Back (Main Menu Version)</strong> - Removes the current widget and creates the Main Menu widget, adding it to the viewport with the player controller as the owning player.</li>
-                            <li><strong>Back (Pause Menu Version)</strong> - Follows the same pattern but creates the Pause Menu widget instead, returning the player to the pause screen.</li>
-                        </ul>
-                        <p class="why-it-matters">Having two versions of the Back button — one for the main menu context and one for the pause menu context — means the Key Bindings screen works correctly regardless of where it was opened from, without needing to track the previous screen at runtime.</p>
-                        <div class="project-media">
-                            <img src="../Images/KillshotMomentum_KeyBindingsUI_1.png" alt="Killshot Momentum Key Binding Menu" />
-                            <img src="../Images/KillshotMomentum_KeyBindingsUI_2.png" alt="Killshot Momentum Key Binding Menu" />
-                            <img src="../Images/KillshotMomentum_KeyBindingsBlueprint_1.png" alt="Killshot Momentum Key Binding Menu" />
-                            <img src="../Images/KillshotMomentum_KeyBindingsBlueprint_2.png" alt="Killshot Momentum Key Binding Menu" />
-                        </div>
-                    </div>
-
-                    <div class="worked-on-item">
-                        <h3>AI Controller &amp; BT Look At</h3>
-                        <p>I implemented the enemy AI system using an AI Controller with perception detection and a Behavior Tree that keeps enemies facing the player.</p>
-                        <ul class="detail-list">
-                            <li><strong>AI Controller Overview</strong> - Uses an AIPerception component to detect the player and drives behavior through the BT_LookAt behavior tree.</li>
-                            <li><strong>Construction Script</strong> - Binds the HandlePerception function to the AIPerception component's On Target Perception Updated event so any perception changes are handled automatically.</li>
-                            <li><strong>Event On Possess</strong> - When the controller possesses a pawn, it immediately starts running the assigned behavior tree asset.</li>
-                            <li><strong>Handle Perception</strong> - Breaks the incoming AI Stimulus to check if the player was successfully sensed. If true, sets the Player key on the blackboard with the detected actor. If false, clears the Player key, removing the target from the behavior tree.</li>
-                            <li><strong>Behavior Tree</strong> - A simple tree using a single Sequence node that continuously runs the BTTask_FaceObject task. The blackboard holds references to SelfActor and Player.</li>
-                            <li><strong>BTTask_FaceObject</strong> - On execute, gets the AI pawn's current rotation and location, finds the look-at rotation toward the player's location, smoothly interpolates to it using RInterp, applies the result via Set Actor Rotation, then finishes the task as a success.</li>
-                        </ul>
-                        <p class="why-it-matters">Binding perception handling in the Construction Script keeps the event wiring automatic — no manual setup required when placing enemies in a level. Using RInterp for rotation means the look-at feels smooth rather than snapping instantly, which reads better as a game feel detail.</p>
-                        <div class="project-media">
-                            <img src="../Images/KillshotMomentum_AIController.png" alt="Killshot Momentum AI Controller" />
-                            <img src="../Images/KillshotMomentum_BTLookAt.png" alt="Killshot Momentum BT Look At" />
-                            <img src="../Images/KillshotMomentum_BehaviorTree.png" alt="Killshot Momentum Behavior Tree" />
-                            <img src="../Images/KillshotMomentum_HandlePerception.png" alt="Killshot Momentum Handle Perception" />
-                            <img src="../Images/KillshotMomentum_EnemyControllerConstruction.png" alt="Killshot Momentum Enemy Controller Construction" />
-                        </div>
-                    </div>
-
                 </article>
 
                 <article class="content-block">
                     <h2>Notes</h2>
 
                     <h3>Gameplay Loop</h3>
-                    <p>Players move through each map as fast as possible using the full movement toolkit — running, jumping, and dashing — while avoiding enemies that block key paths and navigating intentional misdirections built into the level layout. Reaching the end portal triggers the Map Complete screen, which shows the player's elapsed time in MM:SS:MS format and options to replay, advance, or return to the main menu.</p>
+                    <p>Players run, jump and dash through each map while avoiding enemies that block key paths and misdirections built into the layout. Reaching the end portal shows the completion time and options to replay, advance or return to the main menu.</p>
 
-                    <h3>Controls</h3>
-                    <table class="controls-table">
-                        <thead>
-                            <tr><th>Action</th><th>Input</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Move</td><td>W / A / S / D</td></tr>
-                            <tr><td>Jump</td><td>Space Bar</td></tr>
-                            <tr><td>Dash Forward</td><td>Left Shift</td></tr>
-                            <tr><td>Fire Weapon</td><td>Left Mouse Click</td></tr>
-                            <tr><td>Pick Up Weapon</td><td>E</td></tr>
-                            <tr><td>Pause Menu</td><td>P</td></tr>
-                            <tr><td>Reload Map</td><td>F</td></tr>
-                        </tbody>
-                    </table>
-
-                    <h3>Scene / Flow Overview</h3>
-                    <p>The game includes a complete navigable flow rather than a single isolated level:</p>
+                    <h3>Results</h3>
                     <ul class="detail-list">
-                        <li><strong>Main Menu</strong> — title screen with Play Game, Key Bindings, and Quit</li>
-                        <li><strong>Key Bindings screen</strong> — accessible from both the Main Menu and Pause Menu</li>
-                        <li><strong>Settings screen</strong> — graphics and display options with persistent save support</li>
-                        <li><strong>Gameplay maps</strong> — momentum-based traversal with enemies and misdirections</li>
-                        <li><strong>Pause Menu</strong> — Resume, Settings, Key Bindings, Restart, and Main Menu</li>
-                        <li><strong>Map Complete screen</strong> — timed results display with Play Again, Next Level, and Main Menu</li>
+                        <li>Six C++ widget classes sharing one reusable button</li>
+                        <li>Two Behavior Tree variants over a shared Blackboard</li>
+                        <li>Complete flow from main menu through levels, pause and results</li>
                     </ul>
 
-                    <h3>Future Improvements</h3>
+                    <h3>What I’d improve next</h3>
                     <ul class="detail-list">
-                        <li>Leaderboard or persistent time tracking across sessions</li>
-                        <li>Additional movement mechanics such as wall-running or grapple</li>
-                        <li>More enemy types with varied AI behaviors</li>
-                        <li>Expanded level design with more complex misdirection layouts</li>
-                        <li>Animated transitions between menu screens</li>
-                        <li>Full C++ implementation of systems currently in Blueprint</li>
+                        <li>Port <code>BTTask_FaceObject</code> to a C++ <code>UBTTaskNode</code> with an exposed turn-speed property.</li>
+                        <li>Replace the per-frame hover color check in the button’s <code>NativeTick</code> with hover events.</li>
                     </ul>
                 </article>
             </div>
